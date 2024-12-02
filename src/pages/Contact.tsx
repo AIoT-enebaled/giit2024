@@ -7,16 +7,16 @@ import Typewriter from 'typewriter-effect';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-[#020817]">
+    <div className="min-h-screen bg-[#020817] pb-8">
       {/* Neural Network Background */}
       <NeuralNetwork />
       
       {/* Content */}
       <div className="relative">
         {/* Hero Section */}
-        <section className="relative py-20">
+        <section className="relative py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                 Contact Us
               </h1>
@@ -32,7 +32,7 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               {/* Contact Information */}
               <div className="space-y-8">
                 <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 p-6 rounded-xl backdrop-blur-sm border border-indigo-500/20">
@@ -62,39 +62,43 @@ const Contact = () => {
               </div>
 
               {/* Contact Form */}
-              <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 p-6 rounded-xl backdrop-blur-sm border border-indigo-500/20">
-                <h2 className="text-2xl font-semibold mb-6 text-gray-100">Send us a Message</h2>
-                <form className="space-y-4">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Your Name"
-                      className="w-full px-4 py-2 rounded-lg bg-black/50 border border-indigo-500/20 text-gray-300 focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="Your Email"
-                      className="w-full px-4 py-2 rounded-lg bg-black/50 border border-indigo-500/20 text-gray-300 focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
-                  <div>
-                    <textarea
-                      placeholder="Your Message"
-                      rows={4}
-                      className="w-full px-4 py-2 rounded-lg bg-black/50 border border-indigo-500/20 text-gray-300 focus:outline-none focus:border-indigo-500"
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
-                  >
-                    <span>Send Message</span>
-                    <Send size={20} />
-                  </button>
-                </form>
-              </div>
+              <AnimatedSection>
+                <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 p-6 rounded-xl backdrop-blur-sm border border-indigo-500/20">
+                  <h2 className="text-2xl font-semibold mb-6 text-gray-100">Send us a Message</h2>
+                  <form className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="w-full px-4 py-2 rounded-lg bg-black/50 border border-indigo-500/20 text-gray-300 focus:outline-none focus:border-indigo-500"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="w-full px-4 py-2 rounded-lg bg-black/50 border border-indigo-500/20 text-gray-300 focus:outline-none focus:border-indigo-500"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <textarea
+                        placeholder="Your Message"
+                        rows={4}
+                        className="w-full px-4 py-2 rounded-lg bg-black/50 border border-indigo-500/20 text-gray-300 focus:outline-none focus:border-indigo-500"
+                      ></textarea>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                    >
+                      <span>Send Message</span>
+                      <Send size={20} />
+                    </button>
+                  </form>
+                </div>
+              </AnimatedSection>
             </div>
           </div>
         </section>

@@ -10,9 +10,9 @@ import Contact from './pages/Contact';
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen relative">
+      <div className="flex flex-col min-h-screen bg-dark">
         <Navbar />
-        <div className="flex-1 pb-[400px]">
+        <main className="flex-grow w-full">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -20,10 +20,8 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0">
-          <Footer />
-        </div>
+        </main>
+        <Footer />
       </div>
     </Router>
   );

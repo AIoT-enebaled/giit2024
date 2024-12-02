@@ -34,16 +34,16 @@ const Blog = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020817]">
+    <div className="min-h-screen bg-[#020817] pb-8">
       {/* Neural Network Background */}
       <NeuralNetwork />
       
       {/* Content */}
       <div className="relative">
         {/* Hero Section */}
-        <section className="relative py-20">
+        <section className="relative py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                 Blog & Articles
               </h1>
@@ -60,7 +60,7 @@ const Blog = () => {
             </div>
 
             {/* Blog Posts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {blogPosts.map((post, index) => (
                 <motion.div
                   key={index}
