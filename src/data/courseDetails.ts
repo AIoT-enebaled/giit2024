@@ -27,7 +27,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 420000, usd: 114 },
     duration: '2 months',
     ageGroup: 'Ages 6-9',
-    image: 'https://images.unsplash.com/photo-1611996575749-79a3a250f948?auto=format&fit=crop&q=80',
+    image: '/images/scratch.jpg',
     objectives: [
       { title: 'Basic Programming Concepts', description: 'Learn fundamental programming concepts through visual blocks' },
       { title: 'Creative Thinking', description: 'Develop problem-solving and creative thinking skills' },
@@ -52,7 +52,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 650000, usd: 175 },
     duration: '2 months',
     ageGroup: 'Ages 10+',
-    image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80',
+    image: '/images/web-design.jpg',
     objectives: [
       { title: 'HTML5 Fundamentals', description: 'Master modern HTML5 markup and semantic elements' },
       { title: 'CSS3 Styling', description: 'Learn advanced CSS3 styling and animations' },
@@ -77,7 +77,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
     ageGroup: 'Ages 10+',
-    image: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&q=80',
+    image: '/images/python.jpg',
     objectives: [
       { title: 'Python Fundamentals', description: 'Master Python syntax and basic programming concepts' },
       { title: 'Data Structures', description: 'Work with lists, dictionaries, and complex data structures' },
@@ -102,7 +102,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
     ageGroup: 'Ages 10+',
-    image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=80',
+    image: '/images/javascript.jpg',
     objectives: [
       { title: 'JavaScript Fundamentals', description: 'Master modern JavaScript syntax and concepts' },
       { title: 'DOM Manipulation', description: 'Learn to interact with web pages dynamically' },
@@ -127,7 +127,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 1500000, usd: 406 },
     duration: '3 months',
     ageGroup: 'Ages 16+',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80',
+    image: '/images/ai.jpg',
     objectives: [
       { title: 'AI Fundamentals', description: 'Understand basic AI concepts and applications' },
       { title: 'Machine Learning', description: 'Learn basic machine learning algorithms' },
