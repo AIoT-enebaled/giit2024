@@ -101,16 +101,16 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
         
         // Calculate optimal scale to fit content on A4
         const scale = Math.min(
-          (pdfWidth - 20) / imgWidth,
-          (pdfHeight - 40) / imgHeight
+          pdfWidth / imgWidth,
+          pdfHeight / imgHeight
         );
         
         const scaledWidth = imgWidth * scale;
         const scaledHeight = imgHeight * scale;
         
         // Center the content
-        const marginX = (pdfWidth - scaledWidth) / 2;
-        const marginY = 20; // Fixed top margin
+        const marginX = 0;
+        const marginY = 0;
 
         // Add header
         pdf.setFillColor(26, 26, 46);
@@ -136,9 +136,9 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
           imgData,
           'PNG',
           marginX,
-          marginY + 20,
-          scaledWidth,
-          scaledHeight
+          marginY,
+          pdfWidth,
+          pdfHeight
         );
 
         // Add footer

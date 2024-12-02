@@ -1,4 +1,3 @@
-import CourseCard from '../components/CourseCard';
 import AnimatedSection from '../components/AnimatedSection';
 import { motion } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
