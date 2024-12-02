@@ -4,45 +4,12 @@ import { motion } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 import NeuralNetwork from '../components/NeuralNetwork';
 import { useState } from 'react';
+import { courseCatalogs } from '../data/courseDetails';
+import CourseCatalog from '../components/CourseCatalog';
 
 const Services = () => {
   const [showCatalog, setShowCatalog] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
-
-  const courses = [
-    {
-      title: 'Scratch for Kids',
-      description: 'Introduction to programming concepts through fun and interactive projects.',
-      price: { ugx: 420000, usd: 114 },
-      duration: '2 months',
-      ageGroup: 'Ages 6-9',
-      image: 'https://images.unsplash.com/photo-1611996575749-79a3a250f948?auto=format&fit=crop&q=80',
-    },
-    {
-      title: 'Responsive Web Design',
-      description: 'Learn to create modern, responsive websites using HTML, CSS, and JavaScript.',
-      price: { ugx: 650000, usd: 176 },
-      duration: '2 months',
-      ageGroup: 'Ages 13+',
-      image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80',
-    },
-    {
-      title: 'Python Programming',
-      description: 'Master Python programming through hands-on projects and real-world applications.',
-      price: { ugx: 3500000, usd: 950 },
-      duration: '4 months',
-      ageGroup: 'Ages 14+',
-      image: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&q=80',
-    },
-    {
-      title: 'AI & Machine Learning',
-      description: 'Explore artificial intelligence and machine learning fundamentals.',
-      price: { ugx: 2150000, usd: 584 },
-      duration: '3 months',
-      ageGroup: 'Ages 16+',
-      image: 'https://images.unsplash.com/photo-1485796826113-174aa68fd81b?auto=format&fit=crop&q=80',
-    },
-  ];
 
   const handleEnroll = (course: any) => {
     setSelectedCourse(course);
@@ -79,7 +46,7 @@ const Services = () => {
 
             {/* Courses Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {courses.map((course, index) => (
+              {courseCatalogs.map((course, index) => (
                 <AnimatedSection key={index} delay={index * 0.2}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -101,34 +68,31 @@ const Services = () => {
                       <h3 className="text-2xl font-semibold mb-3 text-gray-100">
                         {course.title}
                       </h3>
-                      
-                      <p className="text-gray-300 mb-6 text-lg">
+                      <p className="text-gray-300 mb-4">
                         {course.description}
                       </p>
-                      
-                      <div className="grid grid-cols-2 gap-4 text-gray-300 mb-6">
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-indigo-400">Duration:</span>
-                            <span>{course.duration}</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-indigo-400">Age Group:</span>
-                            <span>{course.ageGroup}</span>
-                          </div>
+                      <div className="flex flex-wrap gap-4 mb-6">
+                        <div className="bg-indigo-900/30 px-3 py-1 rounded-full text-indigo-300 text-sm">
+                          {course.duration}
                         </div>
-                        <div className="text-right">
-                          <div className="text-xl text-indigo-400">UGX {course.price.ugx.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">USD ${course.price.usd}</div>
+                        <div className="bg-purple-900/30 px-3 py-1 rounded-full text-purple-300 text-sm">
+                          {course.ageGroup}
                         </div>
                       </div>
-                      
-                      <button
-                        onClick={() => handleEnroll(course)}
-                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 text-lg"
-                      >
-                        Enroll Now
-                      </button>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-sm text-gray-400">Starting from</p>
+                          <p className="text-lg font-semibold text-indigo-400">
+                            UGX {course.price.ugx.toLocaleString()}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => handleEnroll(course)}
+                          className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium hover:from-indigo-500 hover:to-purple-500 transition-colors"
+                        >
+                          View Details
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 </AnimatedSection>
@@ -138,17 +102,26 @@ const Services = () => {
         </section>
       </div>
 
-      {/* Catalog Modal */}
+      {/* Course Catalog Modal */}
       {showCatalog && selectedCourse && (
-        <CourseCard
-          title={selectedCourse.title}
-          description={selectedCourse.description}
-          price={selectedCourse.price}
-          duration={selectedCourse.duration}
-          ageGroup={selectedCourse.ageGroup}
-          image={selectedCourse.image}
-          onClose={() => setShowCatalog(false)}
-        />
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowCatalog(false)} />
+          <div className="relative min-h-screen flex items-center justify-center p-4">
+            <div className="relative w-full max-w-4xl">
+              <CourseCatalog
+                title={selectedCourse.title}
+                description={selectedCourse.description}
+                price={selectedCourse.price}
+                duration={selectedCourse.duration}
+                ageGroup={selectedCourse.ageGroup}
+                objectives={selectedCourse.objectives}
+                prerequisites={selectedCourse.prerequisites}
+                curriculum={selectedCourse.curriculum}
+                onClose={() => setShowCatalog(false)}
+              />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
