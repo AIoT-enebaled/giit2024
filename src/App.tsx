@@ -9,7 +9,7 @@ import Contact from './pages/Contact';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/giit2024">
       <div className="flex flex-col min-h-screen bg-dark">
         <Navbar />
         <main className="flex-grow w-full">
