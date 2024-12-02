@@ -1,4 +1,3 @@
-import React from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import NeuralNetwork from '../components/NeuralNetwork';
 import { Calendar, User, ArrowRight } from 'lucide-react';
@@ -60,53 +59,55 @@ const Blog = () => {
             </div>
 
             {/* Blog Posts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {blogPosts.map((post, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 overflow-hidden group"
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  </div>
-                  
-                  <div className="p-6">
-                    <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
-                      <div className="flex items-center space-x-2">
-                        <Calendar size={16} />
-                        <span>{post.date}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <User size={16} />
-                        <span>{post.author}</span>
-                      </div>
+            <AnimatedSection>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                {blogPosts.map((post, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 overflow-hidden group"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
                     
-                    <h3 className="text-xl font-semibold mb-2 text-gray-100">
-                      {post.title}
-                    </h3>
-                    
-                    <p className="text-gray-300 mb-4">
-                      {post.excerpt}
-                    </p>
-                    
-                    <button className="flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 transition-colors duration-300">
-                      <span>Read More</span>
-                      <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                    <div className="p-6">
+                      <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
+                        <div className="flex items-center space-x-2">
+                          <Calendar size={16} />
+                          <span>{post.date}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <User size={16} />
+                          <span>{post.author}</span>
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-xl font-semibold mb-2 text-gray-100">
+                        {post.title}
+                      </h3>
+                      
+                      <p className="text-gray-300 mb-4">
+                        {post.excerpt}
+                      </p>
+                      
+                      <button className="flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 transition-colors duration-300">
+                        <span>Read More</span>
+                        <ArrowRight size={16} />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </AnimatedSection>
           </div>
         </section>
       </div>
