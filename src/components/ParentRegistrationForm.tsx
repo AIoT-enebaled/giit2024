@@ -95,10 +95,10 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
 
   return (
     <div className="w-full">
-      {courseTitle && <h2 className="text-2xl font-bold text-white">{courseTitle}</h2>}
+      {courseTitle && <h2 className="text-2xl font-bold text-white mb-4">{courseTitle}</h2>}
       {price && (
-        <div className="course-price">
-          <p>Price: {price.ugx} UGX / {price.usd} USD</p>
+        <div className="course-price mb-4">
+          <p className="text-gray-300">Price: {price.ugx} UGX / {price.usd} USD</p>
         </div>
       )}
       <div className="flex justify-between items-center mb-6">
@@ -117,7 +117,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
           <p className="text-gray-400">We'll contact you shortly with next steps.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-gray-900/50 p-6 rounded-lg">
           {/* Parent Information Section */}
           <div className="bg-gray-900/50 p-4 rounded-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-200">Parent Information</h3>

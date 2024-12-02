@@ -82,7 +82,7 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
           <p className="text-gray-400">We'll contact you shortly with next steps.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 bg-gray-900/50 p-6 rounded-lg">
           <div>
             <label className="block text-gray-300 mb-1">Full Name</label>
             <input
