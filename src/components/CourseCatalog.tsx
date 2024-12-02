@@ -61,16 +61,28 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
         useCORS: true,
         backgroundColor: '#1a1a2e',
         logging: false,
-        width: input.offsetWidth,
-        height: input.offsetHeight,
+        width: input.scrollWidth,
+        height: input.scrollHeight,
+        windowWidth: 1024, // Set a fixed width for consistent rendering
         onclone: (document) => {
-          // Get the cloned element
           const clone = document.getElementById('course-details');
           if (clone) {
-            // Apply any specific styles for PDF generation
-            clone.style.padding = '40px';
+            // Apply specific styles for PDF generation
+            clone.style.padding = '20px';
+            clone.style.width = '1024px'; // Fixed width for better readability
             clone.style.color = '#ffffff';
             clone.style.background = 'linear-gradient(to bottom, #1a1a2e, #2a2a4e)';
+            
+            // Adjust font sizes for better readability
+            const headings = clone.getElementsByTagName('h2');
+            for (let i = 0; i < headings.length; i++) {
+              headings[i].style.fontSize = '24px';
+            }
+            
+            const paragraphs = clone.getElementsByTagName('p');
+            for (let i = 0; i < paragraphs.length; i++) {
+              paragraphs[i].style.fontSize = '14px';
+            }
           }
         }
       }).then((canvas) => {
@@ -86,13 +98,19 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
         const pdfHeight = pdf.internal.pageSize.getHeight();
         const imgWidth = canvas.width;
         const imgHeight = canvas.height;
-        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-        const padding = 10;
-
-        const scaledWidth = (imgWidth * ratio) - (padding * 2);
-        const scaledHeight = (imgHeight * ratio) - (padding * 2);
+        
+        // Calculate optimal scale to fit content on A4
+        const scale = Math.min(
+          (pdfWidth - 20) / imgWidth,
+          (pdfHeight - 40) / imgHeight
+        );
+        
+        const scaledWidth = imgWidth * scale;
+        const scaledHeight = imgHeight * scale;
+        
+        // Center the content
         const marginX = (pdfWidth - scaledWidth) / 2;
-        const marginY = padding;
+        const marginY = 20; // Fixed top margin
 
         // Add header
         pdf.setFillColor(26, 26, 46);
@@ -101,19 +119,19 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
         // Add decorative elements
         pdf.setDrawColor(79, 70, 229); // indigo-600
         pdf.setLineWidth(0.5);
-        pdf.line(padding, padding, pdfWidth - padding, padding);
-        pdf.line(padding, pdfHeight - padding, pdfWidth - padding, pdfHeight - padding);
+        pdf.line(10, 10, pdfWidth - 10, 10);
+        pdf.line(10, pdfHeight - 10, pdfWidth - 10, pdfHeight - 10);
 
         // Add logo and title
         pdf.setFontSize(24);
         pdf.setTextColor(255, 255, 255);
-        pdf.text('GIIT', padding, padding + 10);
+        pdf.text('GIIT', 10, 20);
         
         pdf.setFontSize(20);
         pdf.setTextColor(147, 197, 253); // blue-300
-        pdf.text(`${title} Course Details`, pdfWidth / 2, padding + 10, { align: 'center' });
+        pdf.text(`${title} Course Details`, pdfWidth / 2, 20, { align: 'center' });
 
-        // Add main content
+        // Add main content with proper scaling
         pdf.addImage(
           imgData,
           'PNG',
@@ -129,13 +147,13 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
         pdf.text(
           'Genius Institute of Information Technology',
           pdfWidth / 2,
-          pdfHeight - (padding + 5),
+          pdfHeight - 15,
           { align: 'center' }
         );
         pdf.text(
           `Generated on ${new Date().toLocaleDateString()}`,
           pdfWidth / 2,
-          pdfHeight - (padding + 10),
+          pdfHeight - 10,
           { align: 'center' }
         );
 
