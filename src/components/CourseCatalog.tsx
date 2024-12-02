@@ -354,7 +354,7 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
               <p>Contact Genius Institute</p>
               <p>Email: geniusinstitute2024@gmail.com</p>
               <p>Website: www.geniusinstituteofit.org</p>
-              <p>WhatsApp: +256 770 123 456</p>
+              <p>WhatsApp: +256 752 067 815</p>
             </div>
           </div>
         </div>
