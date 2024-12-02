@@ -117,9 +117,9 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
           <p className="text-gray-400">We'll contact you shortly with next steps.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-gray-900/50 p-6 rounded-lg">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-dark-light p-6 rounded-lg">
           {/* Parent Information Section */}
-          <div className="bg-gray-900/50 p-4 rounded-lg">
+          <div className="bg-dark p-6 rounded-lg border border-gray-800">
             <h3 className="text-lg font-semibold mb-4 text-gray-200">Parent Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -130,7 +130,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.fullName}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   placeholder="Enter parent's full name"
                 />
               </div>
@@ -143,7 +143,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.email}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   placeholder="Enter parent's email"
                 />
               </div>
@@ -156,7 +156,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.phone}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   placeholder="Enter parent's phone number"
                 />
               </div>
@@ -168,15 +168,15 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.preferredContact}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="email" className="bg-gray-800">Email</option>
-                  <option value="phone" className="bg-gray-800">Phone</option>
-                  <option value="whatsapp" className="bg-gray-800">WhatsApp</option>
+                  <option value="email" className="bg-gray-900">Email</option>
+                  <option value="phone" className="bg-gray-900">Phone</option>
+                  <option value="whatsapp" className="bg-gray-900">WhatsApp</option>
                 </select>
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <label className="block text-gray-300 mb-1">Address</label>
                 <input
                   type="text"
@@ -184,7 +184,8 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.address}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  placeholder="Enter your address"
                 />
               </div>
 
@@ -195,10 +196,10 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.classType}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="private" className="bg-gray-800">Private (1-on-1)</option>
-                  <option value="group" className="bg-gray-800">Group Class</option>
+                  <option value="private" className="bg-gray-900">Private (1-on-1)</option>
+                  <option value="group" className="bg-gray-900">Group Class</option>
                 </select>
               </div>
 
@@ -209,11 +210,10 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                   value={parentData.classMode}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="remote" className="bg-gray-800">Remote (Online)</option>
-                  <option value="inPerson" className="bg-gray-800">In-Person</option>
-                  <option value="hybrid" className="bg-gray-800">Hybrid</option>
+                  <option value="remote" className="bg-gray-900">Remote (Online)</option>
+                  <option value="physical" className="bg-gray-900">Physical (In-Person)</option>
                 </select>
               </div>
             </div>
@@ -226,14 +226,14 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
               <button
                 type="button"
                 onClick={addChild}
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                className="text-indigo-400 hover:text-indigo-300 flex items-center gap-2"
               >
                 Add Child
               </button>
             </div>
 
             {children.map((child, index) => (
-              <div key={index} className="bg-gray-900/50 p-4 rounded-lg">
+              <div key={index} className="bg-dark p-6 rounded-lg border border-gray-800">
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="font-medium text-gray-200">Child {index + 1}</h4>
                   {children.length > 1 && (
@@ -256,7 +256,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                       value={child.fullName}
                       onChange={(e) => handleChildChange(index, e)}
                       required
-                      className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                       placeholder="Enter child's full name"
                     />
                   </div>
@@ -271,7 +271,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                       required
                       min="5"
                       max="100"
-                      className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                       placeholder="Enter child's age"
                     />
                   </div>
@@ -283,12 +283,12 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                       value={child.education}
                       onChange={(e) => handleChildChange(index, e)}
                       required
-                      className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
-                      <option value="" className="bg-gray-800">Select Education Level</option>
-                      <option value="primary" className="bg-gray-800">Primary School</option>
-                      <option value="secondary" className="bg-gray-800">Secondary School</option>
-                      <option value="other" className="bg-gray-800">Other</option>
+                      <option value="" className="bg-gray-900">Select Education Level</option>
+                      <option value="primary" className="bg-gray-900">Primary School</option>
+                      <option value="secondary" className="bg-gray-900">Secondary School</option>
+                      <option value="other" className="bg-gray-900">Other</option>
                     </select>
                   </div>
 
@@ -299,12 +299,12 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                       value={child.previousCoding}
                       onChange={(e) => handleChildChange(index, e)}
                       required
-                      className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
-                      <option value="no" className="bg-gray-800">No Experience</option>
-                      <option value="basic" className="bg-gray-800">Basic Understanding</option>
-                      <option value="intermediate" className="bg-gray-800">Intermediate</option>
-                      <option value="advanced" className="bg-gray-800">Advanced</option>
+                      <option value="no" className="bg-gray-900">No Experience</option>
+                      <option value="basic" className="bg-gray-900">Basic Understanding</option>
+                      <option value="intermediate" className="bg-gray-900">Intermediate</option>
+                      <option value="advanced" className="bg-gray-900">Advanced</option>
                     </select>
                   </div>
                 </div>
