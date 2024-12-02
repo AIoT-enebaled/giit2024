@@ -178,7 +178,7 @@ const Home = () => {
                   <div className="flex justify-center mb-4">
                     <Users className="h-12 w-12 text-indigo-400" />
                   </div>
-                  <div className="text-4xl font-bold gradient-text mb-2">1000+</div>
+                  <div className="text-4xl font-bold gradient-text mb-2">50+</div>
                   <div className="text-gray-400">Students Trained</div>
                 </div>
               </AnimatedSection>
@@ -188,7 +188,7 @@ const Home = () => {
                   <div className="flex justify-center mb-4">
                     <BookOpen className="h-12 w-12 text-indigo-400" />
                   </div>
-                  <div className="text-4xl font-bold gradient-text mb-2">20+</div>
+                  <div className="text-4xl font-bold gradient-text mb-2">5+</div>
                   <div className="text-gray-400">Expert Instructors</div>
                 </div>
               </AnimatedSection>
