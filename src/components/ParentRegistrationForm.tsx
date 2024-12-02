@@ -119,98 +119,101 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Parent Information Section */}
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">Parent Information</h3>
+          <div className="bg-gray-900/50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-200">Parent Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-gray-700 mb-1">Full Name</label>
+                <label className="block text-gray-300 mb-1">Full Name</label>
                 <input
                   type="text"
                   name="fullName"
                   value={parentData.fullName}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  placeholder="Enter parent's full name"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-1">Email</label>
+                <label className="block text-gray-300 mb-1">Email</label>
                 <input
                   type="email"
                   name="email"
                   value={parentData.email}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  placeholder="Enter parent's email"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-1">Phone Number</label>
+                <label className="block text-gray-300 mb-1">Phone Number</label>
                 <input
                   type="tel"
                   name="phone"
                   value={parentData.phone}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  placeholder="Enter parent's phone number"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-1">Preferred Contact Method</label>
+                <label className="block text-gray-300 mb-1">Preferred Contact Method</label>
                 <select
                   name="preferredContact"
                   value={parentData.preferredContact}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="email">Email</option>
-                  <option value="phone">Phone</option>
-                  <option value="whatsapp">WhatsApp</option>
+                  <option value="email" className="bg-gray-800">Email</option>
+                  <option value="phone" className="bg-gray-800">Phone</option>
+                  <option value="whatsapp" className="bg-gray-800">WhatsApp</option>
                 </select>
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-gray-700 mb-1">Address</label>
+                <label className="block text-gray-300 mb-1">Address</label>
                 <input
                   type="text"
                   name="address"
                   value={parentData.address}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-1">Class Type</label>
+                <label className="block text-gray-300 mb-1">Class Type</label>
                 <select
                   name="classType"
                   value={parentData.classType}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="private">Private (1-on-1)</option>
-                  <option value="group">Group Class</option>
+                  <option value="private" className="bg-gray-800">Private (1-on-1)</option>
+                  <option value="group" className="bg-gray-800">Group Class</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-1">Class Mode</label>
+                <label className="block text-gray-300 mb-1">Class Mode</label>
                 <select
                   name="classMode"
                   value={parentData.classMode}
                   onChange={handleParentChange}
                   required
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
-                  <option value="remote">Remote (Online)</option>
-                  <option value="inPerson">In-Person</option>
-                  <option value="hybrid">Hybrid</option>
+                  <option value="remote" className="bg-gray-800">Remote (Online)</option>
+                  <option value="inPerson" className="bg-gray-800">In-Person</option>
+                  <option value="hybrid" className="bg-gray-800">Hybrid</option>
                 </select>
               </div>
             </div>
@@ -219,7 +222,7 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
           {/* Children Section */}
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Children Information</h3>
+              <h3 className="text-lg font-semibold text-gray-200">Children Information</h3>
               <button
                 type="button"
                 onClick={addChild}
@@ -230,14 +233,14 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
             </div>
 
             {children.map((child, index) => (
-              <div key={index} className="bg-gray-50 p-4 rounded-lg">
+              <div key={index} className="bg-gray-900/50 p-4 rounded-lg">
                 <div className="flex justify-between items-center mb-4">
-                  <h4 className="font-medium">Child {index + 1}</h4>
+                  <h4 className="font-medium text-gray-200">Child {index + 1}</h4>
                   {children.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeChild(index)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-red-400 hover:text-red-300"
                     >
                       Remove
                     </button>
@@ -246,19 +249,20 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-gray-700 mb-1">Full Name</label>
+                    <label className="block text-gray-300 mb-1">Full Name</label>
                     <input
                       type="text"
                       name="fullName"
                       value={child.fullName}
                       onChange={(e) => handleChildChange(index, e)}
                       required
-                      className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                      className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      placeholder="Enter child's full name"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 mb-1">Age</label>
+                    <label className="block text-gray-300 mb-1">Age</label>
                     <input
                       type="number"
                       name="age"
@@ -267,39 +271,40 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
                       required
                       min="5"
                       max="100"
-                      className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                      className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      placeholder="Enter child's age"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 mb-1">Education Level</label>
+                    <label className="block text-gray-300 mb-1">Education Level</label>
                     <select
                       name="education"
                       value={child.education}
                       onChange={(e) => handleChildChange(index, e)}
                       required
-                      className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                      className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
-                      <option value="">Select Education Level</option>
-                      <option value="primary">Primary School</option>
-                      <option value="secondary">Secondary School</option>
-                      <option value="other">Other</option>
+                      <option value="" className="bg-gray-800">Select Education Level</option>
+                      <option value="primary" className="bg-gray-800">Primary School</option>
+                      <option value="secondary" className="bg-gray-800">Secondary School</option>
+                      <option value="other" className="bg-gray-800">Other</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 mb-1">Previous Coding Experience</label>
+                    <label className="block text-gray-300 mb-1">Previous Coding Experience</label>
                     <select
                       name="previousCoding"
                       value={child.previousCoding}
                       onChange={(e) => handleChildChange(index, e)}
                       required
-                      className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+                      className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
-                      <option value="no">No Experience</option>
-                      <option value="basic">Basic Understanding</option>
-                      <option value="intermediate">Intermediate</option>
-                      <option value="advanced">Advanced</option>
+                      <option value="no" className="bg-gray-800">No Experience</option>
+                      <option value="basic" className="bg-gray-800">Basic Understanding</option>
+                      <option value="intermediate" className="bg-gray-800">Intermediate</option>
+                      <option value="advanced" className="bg-gray-800">Advanced</option>
                     </select>
                   </div>
                 </div>

@@ -84,19 +84,20 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 mb-1">Full Name</label>
+            <label className="block text-gray-300 mb-1">Full Name</label>
             <input
               type="text"
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="Enter your full name"
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Age</label>
+            <label className="block text-gray-300 mb-1">Age</label>
             <input
               type="number"
               name="age"
@@ -105,94 +106,97 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
               required
               min="5"
               max="100"
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="Enter your age"
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Email</label>
+            <label className="block text-gray-300 mb-1">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="Enter your email"
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Phone Number</label>
+            <label className="block text-gray-300 mb-1">Phone Number</label>
             <input
               type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="Enter your phone number"
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Current Education Level</label>
+            <label className="block text-gray-300 mb-1">Current Education Level</label>
             <select
               name="education"
               value={formData.education}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
-              <option value="">Select Education Level</option>
-              <option value="primary">Primary School</option>
-              <option value="secondary">Secondary School</option>
-              <option value="university">University</option>
-              <option value="graduate">Graduate</option>
-              <option value="other">Other</option>
+              <option value="" className="bg-gray-800">Select Education Level</option>
+              <option value="primary" className="bg-gray-800">Primary School</option>
+              <option value="secondary" className="bg-gray-800">Secondary School</option>
+              <option value="university" className="bg-gray-800">University</option>
+              <option value="graduate" className="bg-gray-800">Graduate</option>
+              <option value="other" className="bg-gray-800">Other</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Class Type</label>
+            <label className="block text-gray-300 mb-1">Class Type</label>
             <select
               name="classType"
               value={formData.classType}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
-              <option value="private">Private (1-on-1)</option>
-              <option value="group">Group Class</option>
+              <option value="private" className="bg-gray-800">Private (1-on-1)</option>
+              <option value="group" className="bg-gray-800">Group Class</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Class Mode</label>
+            <label className="block text-gray-300 mb-1">Class Mode</label>
             <select
               name="classMode"
               value={formData.classMode}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
-              <option value="remote">Remote (Online)</option>
-              <option value="inPerson">In-Person</option>
-              <option value="hybrid">Hybrid</option>
+              <option value="remote" className="bg-gray-800">Remote (Online)</option>
+              <option value="inPerson" className="bg-gray-800">In-Person</option>
+              <option value="hybrid" className="bg-gray-800">Hybrid</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Previous Coding Experience</label>
+            <label className="block text-gray-300 mb-1">Previous Coding Experience</label>
             <select
               name="previousCoding"
               value={formData.previousCoding}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-2 border rounded bg-gray-800 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
-              <option value="no">No Experience</option>
-              <option value="basic">Basic Understanding</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
+              <option value="no" className="bg-gray-800">No Experience</option>
+              <option value="basic" className="bg-gray-800">Basic Understanding</option>
+              <option value="intermediate" className="bg-gray-800">Intermediate</option>
+              <option value="advanced" className="bg-gray-800">Advanced</option>
             </select>
           </div>
 
