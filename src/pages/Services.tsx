@@ -86,9 +86,14 @@ const Services = () => {
                           <div className="flex justify-between items-center">
                             <div>
                               <p className="text-sm text-gray-400">Starting from</p>
-                              <p className="text-lg font-semibold text-indigo-400">
-                                UGX {course.price.ugx.toLocaleString()}
-                              </p>
+                              <div className="flex gap-3">
+                                <p className="text-lg font-semibold text-indigo-400">
+                                  UGX {course.price.ugx.toLocaleString()}
+                                </p>
+                                <p className="text-lg font-semibold text-purple-400">
+                                  ${course.price.usd}
+                                </p>
+                              </div>
                             </div>
                             <button
                               onClick={() => handleEnroll(course)}
