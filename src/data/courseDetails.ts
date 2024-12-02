@@ -49,7 +49,7 @@ export const courseCatalogs: CourseCatalog[] = [
     id: 'web-design',
     title: 'Responsive Web Design',
     description: 'Learn to create modern, responsive websites using HTML, CSS, and JavaScript.',
-    price: { ugx: 550000, usd: 149 },
+    price: { ugx: 650000, usd: 175 },
     duration: '2 months',
     ageGroup: 'Ages 10+',
     image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80',
