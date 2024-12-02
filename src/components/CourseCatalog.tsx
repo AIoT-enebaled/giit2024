@@ -109,8 +109,8 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
         const scaledHeight = imgHeight * scale;
         
         // Center the content
-        const marginX = 0;
-        const marginY = 0;
+        const marginX = (pdfWidth - scaledWidth) / 2;
+        const marginY = (pdfHeight - scaledHeight) / 2;
 
         // Add header
         pdf.setFillColor(26, 26, 46);
@@ -137,8 +137,8 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
           'PNG',
           marginX,
           marginY,
-          pdfWidth,
-          pdfHeight
+          scaledWidth,
+          scaledHeight
         );
 
         // Add footer
