@@ -27,7 +27,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 420000, usd: 114 },
     duration: '2 months',
     ageGroup: 'Ages 6-9',
-    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/scratch-programming.jpg',
+    image: 'https://images.pexels.com/photos/4709285/pexels-photo-4709285.jpeg',
     objectives: [
       { title: 'Basic Programming Concepts', description: 'Learn fundamental programming concepts through visual blocks' },
       { title: 'Creative Thinking', description: 'Develop problem-solving and creative thinking skills' },
@@ -52,7 +52,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 650000, usd: 175 },
     duration: '2 months',
     ageGroup: 'Ages 10+',
-    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/web-development.jpg',
+    image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
     objectives: [
       { title: 'HTML5 Fundamentals', description: 'Master modern HTML5 markup and semantic elements' },
       { title: 'CSS3 Styling', description: 'Learn advanced CSS3 styling and animations' },
@@ -77,7 +77,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
     ageGroup: 'Ages 10+',
-    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/python-programming.jpg',
+    image: 'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg',
     objectives: [
       { title: 'Python Fundamentals', description: 'Master Python syntax and basic programming concepts' },
       { title: 'Data Structures', description: 'Work with lists, dictionaries, and complex data structures' },
@@ -102,7 +102,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
     ageGroup: 'Ages 10+',
-    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/javascript.jpg',
+    image: 'https://images.pexels.com/photos/4164418/pexels-photo-4164418.jpeg',
     objectives: [
       { title: 'JavaScript Fundamentals', description: 'Master modern JavaScript syntax and concepts' },
       { title: 'DOM Manipulation', description: 'Learn to interact with web pages dynamically' },
@@ -127,7 +127,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 1500000, usd: 406 },
     duration: '3 months',
     ageGroup: 'Ages 16+',
-    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/ai-ml.jpg',
+    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
     objectives: [
       { title: 'AI Fundamentals', description: 'Understand basic AI concepts and applications' },
       { title: 'Machine Learning', description: 'Learn basic machine learning algorithms' },
