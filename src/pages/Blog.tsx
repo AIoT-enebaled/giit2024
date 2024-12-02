@@ -12,7 +12,7 @@ const Blog = () => {
       excerpt: "Learn the basics of Python programming and why it is perfect for beginners.",
       image: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&q=80',
       date: '2024-02-20',
-      author: 'John Doe',
+      author: 'Katie Cate🤞',
       category: 'Programming',
     },
     {
@@ -20,7 +20,7 @@ const Blog = () => {
       excerpt: 'Explore the latest trends in web design and how to implement them.',
       image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80',
       date: '2024-02-18',
-      author: 'Jane Smith',
+      author: 'Chris Walker🙂',
       category: 'Design',
     },
     {
@@ -28,7 +28,7 @@ const Blog = () => {
       excerpt: 'Understanding the basic concepts of machine learning and AI.',
       image: 'https://images.unsplash.com/photo-1485796826113-174aa68fd81b?auto=format&fit=crop&q=80',
       date: '2024-02-15',
-      author: 'Mike Johnson',
+      author: 'Betty Smith😊',
       category: 'AI & ML',
     },
   ];
