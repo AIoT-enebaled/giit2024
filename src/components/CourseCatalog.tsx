@@ -151,12 +151,12 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="relative bg-dark-light rounded-xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="relative bg-dark-light rounded-xl p-4 sm:p-6 md:p-8 max-w-4xl w-full max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="course-catalog-container">
@@ -251,25 +251,25 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
               </motion.div>
             </div>
           )}
-          <div className="flex justify-end p-4">
+          <div className="flex flex-wrap justify-end gap-2 p-4">
             <button onClick={handleEnroll} className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
               Enroll
             </button>
-            <button onClick={handleDownloadPDF} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-2">
+            <button onClick={handleDownloadPDF} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
               Download PDF
             </button>
-            <button onClick={handleDownload} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded ml-2">
+            <button onClick={handleDownload} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
               Download
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-200 transition-colors duration-300 ml-2"
+              className="p-2 text-gray-400 hover:text-gray-200 transition-colors duration-300"
             >
               ×
             </button>
           </div>
 
-          <div id="course-catalog" className="bg-[#1a1a1a] text-[#f0f0f0] p-5 rounded-[8px]">
+          <div id="course-catalog" className="bg-[#1a1a1a] text-[#f0f0f0] p-4 sm:p-5 rounded-[8px]">
             <div id="course-header" className="text-center mb-5 text-2xl">
               {title} Course Catalog
             </div>
@@ -290,7 +290,7 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
                 <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-lg font-semibold text-indigo-400 mb-2">Duration</h3>
                   <p className="text-gray-300">{duration}</p>
@@ -308,10 +308,10 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
                 </div>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-6 md:space-y-8">
                 <div>
                   <h3 className="text-2xl font-bold text-indigo-400 mb-4">Learning Objectives</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {objectives.map((objective, index) => (
                       <div key={index} className="flex items-start gap-3 bg-gray-800/30 p-4 rounded-lg">
                         <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
@@ -350,12 +350,14 @@ const CourseCatalog: React.FC<CourseCatalogProps> = ({
                 </div>
               </div>
             </div>
-            <div id="course-contact">
-              <p>Contact Genius Institute</p>
-              <p>Email: geniusinstitute2024@gmail.com</p>
-              <p>Website: www.geniusinstituteofit.org</p>
-              <p>WhatsApp: +256 752 067 815</p>
+            <div id="course-contact" className="mt-8 p-4 bg-gray-800/30 rounded-lg space-y-2">
+              <h3 className="text-xl font-semibold text-indigo-400 mb-4">Contact Information</h3>
+              <p className="text-gray-300">Contact Genius Institute</p>
+              <p className="text-gray-300">Email: geniusinstitute2024@gmail.com</p>
+              <p className="text-gray-300">Website: www.geniusinstituteofit.org</p>
+              <p className="text-gray-300">WhatsApp: +256 752 067 815</p>
             </div>
+            <div className="pb-4"></div>
           </div>
         </div>
       </motion.div>
