@@ -1,0 +1,28 @@
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typewriter-text {
+  display: inline-block;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 0.7s infinite;
+}
+
+/* Global Typewriter Styles */
+.typewriter-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+.typewriter-subtitle {
+  font-size: 1.5rem;
+  color: #cccccc;
+  margin-bottom: 1rem;
+}
