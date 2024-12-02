@@ -27,7 +27,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 420000, usd: 114 },
     duration: '2 months',
     ageGroup: 'Ages 6-9',
-    image: '/images/scratch.jpg',
+    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/scratch-programming.jpg',
     objectives: [
       { title: 'Basic Programming Concepts', description: 'Learn fundamental programming concepts through visual blocks' },
       { title: 'Creative Thinking', description: 'Develop problem-solving and creative thinking skills' },
@@ -52,7 +52,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 650000, usd: 175 },
     duration: '2 months',
     ageGroup: 'Ages 10+',
-    image: '/images/web-design.jpg',
+    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/web-development.jpg',
     objectives: [
       { title: 'HTML5 Fundamentals', description: 'Master modern HTML5 markup and semantic elements' },
       { title: 'CSS3 Styling', description: 'Learn advanced CSS3 styling and animations' },
@@ -77,7 +77,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
     ageGroup: 'Ages 10+',
-    image: '/images/python.jpg',
+    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/python-programming.jpg',
     objectives: [
       { title: 'Python Fundamentals', description: 'Master Python syntax and basic programming concepts' },
       { title: 'Data Structures', description: 'Work with lists, dictionaries, and complex data structures' },
@@ -102,7 +102,7 @@ export const courseCatalogs: CourseCatalog[] = [
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
     ageGroup: 'Ages 10+',
-    image: '/images/javascript.jpg',
+    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/javascript.jpg',
     objectives: [
       { title: 'JavaScript Fundamentals', description: 'Master modern JavaScript syntax and concepts' },
       { title: 'DOM Manipulation', description: 'Learn to interact with web pages dynamically' },
@@ -122,12 +122,12 @@ export const courseCatalogs: CourseCatalog[] = [
   },
   {
     id: 'ai-course',
-    title: 'AI Short Course',
-    description: 'Introduction to artificial intelligence and machine learning concepts.',
+    title: 'AI & Machine Learning',
+    description: 'Introduction to Artificial Intelligence and Machine Learning concepts.',
     price: { ugx: 1500000, usd: 406 },
     duration: '3 months',
     ageGroup: 'Ages 16+',
-    image: '/images/ai.jpg',
+    image: 'https://raw.githubusercontent.com/AIoT-enebaled/giit2024/main/public/images/ai-ml.jpg',
     objectives: [
       { title: 'AI Fundamentals', description: 'Understand basic AI concepts and applications' },
       { title: 'Machine Learning', description: 'Learn basic machine learning algorithms' },
