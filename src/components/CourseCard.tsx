@@ -32,7 +32,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const [showCatalog, setShowCatalog] = useState(false);
   const [registrationType, setRegistrationType] = useState<'student' | 'parent' | null>(null);
 
-  const courseDetails = courseCatalogs.find(course => course.title === title);
+  const courseDetails = courseCatalogs.find(course => 
+    course.id === title.toLowerCase().replace(/\s+/g, '-') || 
+    course.title.toLowerCase() === title.toLowerCase()
+  );
 
   const handleEnroll = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -43,7 +46,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const handleViewCatalog = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setShowCatalog(true);
+    if (courseDetails) {
+      setShowCatalog(true);
+    } else {
+      console.error(`Course details not found for: ${title}`);
+    }
   };
 
   const closeModal = () => {

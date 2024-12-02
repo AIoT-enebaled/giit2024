@@ -44,59 +44,65 @@ const Services = () => {
               </div>
             </AnimatedSection>
 
-            {/* Courses Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {courseCatalogs.map((course, index) => (
-                <AnimatedSection key={index} delay={index * 0.2}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 overflow-hidden group"
-                  >
-                    <div className="relative h-64 overflow-hidden">
-                      <img
-                        src={course.image}
-                        alt={course.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    </div>
-                    
-                    <div className="p-8">
-                      <h3 className="text-2xl font-semibold mb-3 text-gray-100">
-                        {course.title}
-                      </h3>
-                      <p className="text-gray-300 mb-4">
-                        {course.description}
-                      </p>
-                      <div className="flex flex-wrap gap-4 mb-6">
-                        <div className="bg-indigo-900/30 px-3 py-1 rounded-full text-indigo-300 text-sm">
-                          {course.duration}
+            {/* Course Catalog Section */}
+            <div className="container mx-auto px-4 py-16">
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h2 className="text-4xl font-bold text-white text-center mb-8">
+                  <Typewriter
+                    options={{
+                      strings: ['Our Courses', 'Learn with Us'],
+                      autoStart: true,
+                      loop: true,
+                    }}
+                  />
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+                  {courseCatalogs.map((course, index) => (
+                    <AnimatedSection key={course.id} delay={index * 0.2}>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 overflow-hidden group"
+                      >
+                        <div className="relative h-64 overflow-hidden">
+                          <img
+                            src={course.image}
+                            alt={course.title}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         </div>
-                        <div className="bg-purple-900/30 px-3 py-1 rounded-full text-purple-300 text-sm">
-                          {course.ageGroup}
+                        
+                        <div className="p-8">
+                          <h3 className="text-2xl font-bold text-white mb-4">{course.title}</h3>
+                          <p className="text-gray-300 mb-6">{course.description}</p>
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="text-sm text-gray-400">Starting from</p>
+                              <p className="text-lg font-semibold text-indigo-400">
+                                UGX {course.price.ugx.toLocaleString()}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => handleEnroll(course)}
+                              className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium hover:from-indigo-500 hover:to-purple-500 transition-colors"
+                            >
+                              View Details
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-sm text-gray-400">Starting from</p>
-                          <p className="text-lg font-semibold text-indigo-400">
-                            UGX {course.price.ugx.toLocaleString()}
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => handleEnroll(course)}
-                          className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium hover:from-indigo-500 hover:to-purple-500 transition-colors"
-                        >
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatedSection>
-              ))}
+                      </motion.div>
+                    </AnimatedSection>
+                  ))}
+                </div>
+              </motion.div>
             </div>
           </div>
         </section>
