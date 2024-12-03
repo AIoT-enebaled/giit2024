@@ -20,7 +20,7 @@ export const sendRegistrationEmail = async (data: EmailData) => {
     // Send email to student/parent
     const studentResponse = await emailjs.send(
       "service_u40qh8e",
-      "template_nqmcfnf",
+      "template_b6d56m3",
       {
         ...data,
         subject: `Course Registration Confirmation - ${data.course_title}`,
