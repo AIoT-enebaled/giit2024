@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <HashRouter>
+    <HashRouter basename="/">
       <div className="flex flex-col min-h-screen bg-[#020817]">
         <Navbar />
         <main className="flex-grow">

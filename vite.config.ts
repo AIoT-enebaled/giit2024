@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.VITE_BASE_URL || '/giit2024/',
+  base: '/giit2024/',
   plugins: [react()],
   build: {
     outDir: 'dist',
