@@ -42,11 +42,17 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="#/" className="text-gray-300 hover:text-white">Home</Link>
-            <Link to="#/about" className="text-gray-300 hover:text-white">About</Link>
-            <Link to="#/services" className="text-gray-300 hover:text-white">Services</Link>
-            <Link to="#/blog" className="text-gray-300 hover:text-white">Blog</Link>
-            <Link to="#/contact" className="text-gray-300 hover:text-white">Contact</Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`text-gray-300 hover:text-white transition-colors duration-200 ${
+                  location.pathname === link.path ? 'text-white' : ''
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
 
           {/* Mobile Navigation Button */}
@@ -62,33 +68,24 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="md:hidden"
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-dark-light/90 backdrop-blur-md">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`block px-3 py-2 rounded-lg transition-colors duration-300 ${
-                    isActive(link.path)
-                      ? 'bg-dark-lighter text-indigo-400'
-                      : 'text-gray-400 hover:bg-dark-lighter hover:text-indigo-300'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#020817]">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 ${
+                  location.pathname === link.path ? 'bg-gray-700 text-white' : ''
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
