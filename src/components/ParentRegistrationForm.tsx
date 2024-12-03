@@ -66,10 +66,33 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
     setIsSubmitting(true);
     setError(null);
 
+    // Basic validation
+    if (!parentData.fullName.trim()) {
+      setError('Please enter parent\'s full name');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!parentData.email.trim()) {
+      setError('Please enter parent\'s email address');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!children[0].fullName.trim()) {
+      setError('Please enter child\'s full name');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      console.log('Starting parent registration process...');
       // Send registration email for each child
+      const registrationResults = [];
+      
       for (const child of children) {
-        await sendRegistrationEmail({
+        console.log('Processing registration for child:', child.fullName);
+        const result = await sendRegistrationEmail({
           to_email: parentData.email || "geniusinstitute2024@gmail.com",
           to_name: parentData.fullName,
           course_title: courseTitle ?? 'Unknown Course',
@@ -80,14 +103,28 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
           contact: parentData.phone || parentData.email || "Not provided",
           parent_name: parentData.fullName
         });
+        
+        registrationResults.push(result);
+        console.log('Registration result for', child.fullName, ':', result);
       }
 
-      setSuccess(true);
-      setTimeout(() => {
-        onClose?.();
-      }, 3000);
+      const allSuccessful = registrationResults.every(result => result.success);
+      
+      if (allSuccessful) {
+        setSuccess(true);
+        setTimeout(() => {
+          onClose?.();
+        }, 3000);
+      } else {
+        throw new Error('Some registrations failed to complete');
+      }
     } catch (err) {
-      setError('Failed to submit registration. Please try again.');
+      console.error('Parent registration error:', err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Failed to submit registration. Please try again or contact support.');
+      }
     } finally {
       setIsSubmitting(false);
     }

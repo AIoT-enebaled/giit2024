@@ -57,6 +57,7 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
     }
 
     try {
+      console.log('Starting registration process...');
       const registrationResult = await sendRegistrationEmail({
         to_email: formData.email,
         to_name: formData.fullName,
@@ -68,17 +69,20 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
         contact: formData.phone
       });
 
-      if (registrationResult) {
+      console.log('Registration result:', registrationResult);
+
+      if (registrationResult.success) {
         setSuccess(true);
         setTimeout(() => {
           onClose?.();
         }, 3000);
       }
     } catch (err) {
+      console.error('Registration error:', err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('Failed to submit registration. Please try again.');
+        setError('Failed to submit registration. Please try again or contact support.');
       }
     } finally {
       setIsSubmitting(false);
