@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -11,8 +11,8 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
+    <HashRouter>
+      <div className="flex flex-col min-h-screen bg-[#020817]">
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -26,7 +26,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
