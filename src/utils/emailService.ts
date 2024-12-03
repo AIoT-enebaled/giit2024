@@ -1,4 +1,4 @@
-import { init, send } from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 
 // Initialize EmailJS with your public key
 const EMAILJS_PUBLIC_KEY = "j5lr-u1sKIncQiSNQ_xXzYw";
@@ -7,10 +7,8 @@ const EMAILJS_STUDENT_TEMPLATE_ID = "template_fis3lfw";
 const EMAILJS_ADMIN_TEMPLATE_ID = "template_8jt9xba";
 const ADMIN_EMAIL = "geniusinstitute2024@gmail.com";
 
-// Initialize EmailJS with debug mode
-init({
-  publicKey: EMAILJS_PUBLIC_KEY
-});
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 // Verify EmailJS configuration
 const verifyEmailJSConfig = async () => {
@@ -19,11 +17,6 @@ const verifyEmailJSConfig = async () => {
     console.log('Service ID:', EMAILJS_SERVICE_ID);
     console.log('Student Template ID:', EMAILJS_STUDENT_TEMPLATE_ID);
     console.log('Admin Template ID:', EMAILJS_ADMIN_TEMPLATE_ID);
-    
-    // Test if EmailJS is properly initialized
-    if (!(init as any).isInitialized()) {
-      throw new Error('EmailJS is not properly initialized');
-    }
     
     return true;
   } catch (error) {
@@ -76,7 +69,7 @@ export const sendRegistrationEmail = async (data: EmailData) => {
 
     // Send email to student/parent with timeout
     const studentEmailPromise = Promise.race([
-      send(
+      emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_STUDENT_TEMPLATE_ID,
         studentTemplateParams
@@ -109,7 +102,7 @@ export const sendRegistrationEmail = async (data: EmailData) => {
 
     // Send notification to admin with timeout
     const adminEmailPromise = Promise.race([
-      send(
+      emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_ADMIN_TEMPLATE_ID,
         adminTemplateParams
