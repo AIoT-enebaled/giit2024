@@ -42,26 +42,11 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`relative px-2 py-1 transition-colors duration-300 ${
-                  isActive(link.path)
-                    ? 'text-indigo-400'
-                    : 'text-gray-400 hover:text-indigo-300'
-                }`}
-              >
-                {link.name}
-                {isActive(link.path) && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500"
-                    initial={false}
-                  />
-                )}
-              </Link>
-            ))}
+            <Link to="#/" className="text-gray-300 hover:text-white">Home</Link>
+            <Link to="#/about" className="text-gray-300 hover:text-white">About</Link>
+            <Link to="#/services" className="text-gray-300 hover:text-white">Services</Link>
+            <Link to="#/blog" className="text-gray-300 hover:text-white">Blog</Link>
+            <Link to="#/contact" className="text-gray-300 hover:text-white">Contact</Link>
           </div>
 
           {/* Mobile Navigation Button */}
