@@ -7,14 +7,8 @@ const EMAILJS_STUDENT_TEMPLATE_ID = "template_fis3lfw";
 const EMAILJS_ADMIN_TEMPLATE_ID = "template_8jt9xba";
 const ADMIN_EMAIL = "geniusinstitute2024@gmail.com";
 
-let isInitialized = false;
-
-try {
-  emailjs.init(EMAILJS_PUBLIC_KEY);
-  isInitialized = true;
-} catch (error) {
-  console.error('Failed to initialize EmailJS:', error);
-}
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 interface EmailData {
   to_email: string;
@@ -29,55 +23,59 @@ interface EmailData {
 }
 
 export const sendRegistrationEmail = async (data: EmailData) => {
-  if (!isInitialized) {
-    console.error('EmailJS not initialized');
-    throw new Error('Email service is not initialized. Please try again later.');
-  }
-
   try {
-    console.log('Attempting to send student confirmation email...', {
-      service: EMAILJS_SERVICE_ID,
-      template: EMAILJS_STUDENT_TEMPLATE_ID,
-      data: { ...data, to_email: data.to_email }
-    });
+    // Prepare student email template parameters
+    const studentTemplateParams = {
+      to_name: data.to_name,
+      to_email: data.to_email,
+      course_title: data.course_title,
+      class_type: data.class_type,
+      class_mode: data.class_mode,
+      student_name: data.student_name || data.to_name,
+      student_age: data.student_age || 'Not specified',
+      parent_name: data.parent_name || 'Not specified',
+      contact: data.contact || data.to_email,
+      subject: `Course Registration Confirmation - ${data.course_title}`,
+      reply_to: data.to_email
+    };
+
+    console.log('Sending student confirmation email with params:', studentTemplateParams);
 
     // Send email to student/parent
     const studentResponse = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_STUDENT_TEMPLATE_ID,
-      {
-        ...data,
-        subject: `Course Registration Confirmation - ${data.course_title}`,
-      }
+      studentTemplateParams
     );
 
-    console.log('Student email response:', studentResponse);
+    console.log('Student email sent successfully:', studentResponse);
 
-    if (studentResponse.status !== 200) {
-      console.error('Student email failed with status:', studentResponse.status);
-      throw new Error('Failed to send confirmation email to student/parent');
-    }
+    // Prepare admin email template parameters
+    const adminTemplateParams = {
+      to_name: 'GIIT Admin',
+      to_email: ADMIN_EMAIL,
+      course_title: data.course_title,
+      class_type: data.class_type,
+      class_mode: data.class_mode,
+      student_name: data.student_name || data.to_name,
+      student_age: data.student_age || 'Not specified',
+      parent_name: data.parent_name || 'Not specified',
+      contact: data.contact || data.to_email,
+      student_email: data.to_email,
+      subject: `New Course Registration - ${data.course_title}`,
+      reply_to: data.to_email
+    };
 
-    console.log('Attempting to send admin notification email...');
+    console.log('Sending admin notification email with params:', adminTemplateParams);
 
-    // Send notification to GIIT
+    // Send notification to admin
     const adminResponse = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_ADMIN_TEMPLATE_ID,
-      {
-        ...data,
-        to_email: ADMIN_EMAIL,
-        to_name: "GIIT Admin",
-        subject: `New Course Registration - ${data.course_title}`,
-      }
+      adminTemplateParams
     );
 
-    console.log('Admin email response:', adminResponse);
-
-    if (adminResponse.status !== 200) {
-      console.error('Admin email failed with status:', adminResponse.status);
-      throw new Error('Failed to send notification email to admin');
-    }
+    console.log('Admin email sent successfully:', adminResponse);
 
     return true;
   } catch (error) {
@@ -88,15 +86,7 @@ export const sendRegistrationEmail = async (data: EmailData) => {
         stack: error.stack,
         name: error.name
       });
-      
-      if (error.message.includes('rate limit')) {
-        throw new Error('Too many registration attempts. Please try again in a few minutes.');
-      } else if (error.message.includes('network')) {
-        throw new Error('Network error. Please check your internet connection and try again.');
-      } else if (error.message.includes('template')) {
-        throw new Error('Email template configuration error. Please contact support.');
-      }
     }
-    throw new Error('Registration failed. Please try again or contact support if the issue persists.');
+    throw new Error('Failed to send registration emails. Please try again or contact support.');
   }
 };
