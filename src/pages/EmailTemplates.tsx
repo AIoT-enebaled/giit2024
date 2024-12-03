@@ -44,13 +44,13 @@ const EmailTemplates = () => {
         >
           {activeTemplate === 'student' ? (
             <iframe
-              src="/templates/studentRegistrationEmail.html"
+              src="/giit2024/templates/studentRegistrationEmail.html"
               className="w-full h-[600px] border-0"
               title="Student Registration Email Template"
             />
           ) : (
             <iframe
-              src="/templates/adminNotificationEmail.html"
+              src="/giit2024/templates/adminNotificationEmail.html"
               className="w-full h-[600px] border-0"
               title="Admin Notification Email Template"
             />
