@@ -17,6 +17,7 @@ interface CourseCatalog {
   objectives: CourseObjective[];
   prerequisites: string[];
   curriculum: string[];
+  classPeriods: string[];
 }
 
 export const courseCatalogs: CourseCatalog[] = [
@@ -43,6 +44,11 @@ export const courseCatalogs: CourseCatalog[] = [
       'Building interactive stories',
       'Simple game development',
       'Final project'
+    ],
+    classPeriods: [
+      'Monday & Wednesday: 9:00 AM - 11:00 AM',
+      'Tuesday & Thursday: 2:00 PM - 4:00 PM',
+      'Saturday: 10:00 AM - 2:00 PM'
     ]
   },
   {
@@ -68,6 +74,11 @@ export const courseCatalogs: CourseCatalog[] = [
       'Basic JavaScript concepts',
       'Working with forms',
       'Final project: Personal portfolio'
+    ],
+    classPeriods: [
+      'Monday & Wednesday: 2:00 PM - 4:00 PM',
+      'Tuesday & Thursday: 9:00 AM - 11:00 AM',
+      'Saturday: 2:00 PM - 6:00 PM'
     ]
   },
   {
@@ -93,6 +104,11 @@ export const courseCatalogs: CourseCatalog[] = [
       'File handling and databases',
       'Web development with Flask',
       'Final project: Web application'
+    ],
+    classPeriods: [
+      'Monday, Wednesday & Friday: 9:00 AM - 12:00 PM',
+      'Tuesday & Thursday: 2:00 PM - 5:00 PM',
+      'Saturday: 9:00 AM - 3:00 PM'
     ]
   },
   {
@@ -118,6 +134,11 @@ export const courseCatalogs: CourseCatalog[] = [
       'State management',
       'API integration',
       'Final project: Full-stack application'
+    ],
+    classPeriods: [
+      'Monday, Wednesday & Friday: 2:00 PM - 5:00 PM',
+      'Tuesday & Thursday: 9:00 AM - 12:00 PM',
+      'Saturday: 2:00 PM - 8:00 PM'
     ]
   },
   {
@@ -143,6 +164,11 @@ export const courseCatalogs: CourseCatalog[] = [
       'Computer vision basics',
       'Natural language processing',
       'Final project: AI application'
+    ],
+    classPeriods: [
+      'Monday & Wednesday: 4:00 PM - 7:00 PM',
+      'Tuesday & Thursday: 5:00 PM - 8:00 PM',
+      'Saturday: 1:00 PM - 7:00 PM'
     ]
   }
 ];
