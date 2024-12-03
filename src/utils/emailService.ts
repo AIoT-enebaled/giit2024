@@ -1,7 +1,20 @@
 import emailjs from '@emailjs/browser';
 
 // Initialize EmailJS with your public key
-emailjs.init("j5lr-u1sKIncQiSNQ");
+const EMAILJS_PUBLIC_KEY = "j5lr-u1sKIncQiSNQ";
+const EMAILJS_SERVICE_ID = "service_u40qh8e";
+const EMAILJS_STUDENT_TEMPLATE_ID = "template_b6d56m3";
+const EMAILJS_ADMIN_TEMPLATE_ID = "template_8jt9xba";
+const ADMIN_EMAIL = "geniusinstitute2024@gmail.com";
+
+let isInitialized = false;
+
+try {
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+  isInitialized = true;
+} catch (error) {
+  console.error('Failed to initialize EmailJS:', error);
+}
 
 interface EmailData {
   to_email: string;
@@ -16,11 +29,15 @@ interface EmailData {
 }
 
 export const sendRegistrationEmail = async (data: EmailData) => {
+  if (!isInitialized) {
+    throw new Error('Email service is not initialized. Please try again later.');
+  }
+
   try {
     // Send email to student/parent
     const studentResponse = await emailjs.send(
-      "service_u40qh8e",
-      "template_b6d56m3",
+      EMAILJS_SERVICE_ID,
+      EMAILJS_STUDENT_TEMPLATE_ID,
       {
         ...data,
         subject: `Course Registration Confirmation - ${data.course_title}`,
@@ -33,11 +50,11 @@ export const sendRegistrationEmail = async (data: EmailData) => {
 
     // Send notification to GIIT
     const adminResponse = await emailjs.send(
-      "service_u40qh8e",
-      "template_8jt9xba",
+      EMAILJS_SERVICE_ID,
+      EMAILJS_ADMIN_TEMPLATE_ID,
       {
         ...data,
-        to_email: "geniusinstitute2024@gmail.com",
+        to_email: ADMIN_EMAIL,
         to_name: "GIIT Admin",
         subject: `New Course Registration - ${data.course_title}`,
       }
@@ -50,6 +67,13 @@ export const sendRegistrationEmail = async (data: EmailData) => {
     return true;
   } catch (error) {
     console.error('Failed to send email:', error);
-    throw new Error('Registration email failed to send. Please try again.');
+    if (error instanceof Error) {
+      if (error.message.includes('rate limit')) {
+        throw new Error('Too many registration attempts. Please try again in a few minutes.');
+      } else if (error.message.includes('network')) {
+        throw new Error('Network error. Please check your internet connection and try again.');
+      }
+    }
+    throw new Error('Registration failed. Please try again or contact support if the issue persists.');
   }
 };

@@ -37,16 +37,35 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
     setIsSubmitting(true);
     setError(null);
 
+    // Basic validation
+    if (!formData.fullName.trim()) {
+      setError('Please enter your full name');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      setError('Please enter your email address');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.phone.trim()) {
+      setError('Please enter your phone number');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const registrationResult = await sendRegistrationEmail({
-        to_email: formData.email || "geniusinstitute2024@gmail.com",
+        to_email: formData.email,
         to_name: formData.fullName,
         course_title: courseTitle ?? 'Unknown Course',
         class_type: formData.classType,
         class_mode: formData.classMode,
         student_name: formData.fullName,
         student_age: formData.age,
-        contact: formData.phone || formData.email || "Not provided"
+        contact: formData.phone
       });
 
       if (registrationResult) {
@@ -56,7 +75,11 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
         }, 3000);
       }
     } catch (err) {
-      setError('Failed to submit registration. Please try again.');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Failed to submit registration. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
