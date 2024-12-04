@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
-import { sendRegistrationEmail } from '../utils';
+import { sendRegistrationEmail } from '../utils/emailService';
 
 interface ParentRegistrationFormProps {
   courseTitle?: string;

@@ -36,11 +36,28 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
+    setSuccess(false);
 
     try {
       // Validate required fields
-      if (!formData.fullName || !formData.email || !formData.age) {
-        throw new Error('Please fill in all required fields (Name, Email, and Age)');
+      const requiredFields = {
+        'Full Name': formData.fullName,
+        'Email': formData.email,
+        'Age': formData.age
+      };
+
+      const missingFields = Object.entries(requiredFields)
+        .filter(([_, value]) => !value)
+        .map(([field]) => field);
+
+      if (missingFields.length > 0) {
+        throw new Error(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        throw new Error('Please enter a valid email address');
       }
 
       // Prepare email data
@@ -57,11 +74,12 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
         previous_coding: formData.previousCoding || 'None'
       };
 
-      console.log('Sending student registration email...');
+      console.log('Sending student registration email with data:', emailData);
       const response = await sendRegistrationEmail(emailData);
       
       if (!response.success) {
-        throw new Error(response.error || 'Failed to send registration email');
+        console.error('Email service response:', response);
+        throw new Error(response.error || 'Failed to send registration email. Please try again later.');
       }
 
       setSuccess(true);
@@ -75,10 +93,16 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
         classType: 'regular',
         classMode: 'online'
       });
-      if (onClose) onClose();
+
+      // Show success message for 3 seconds before closing
+      setTimeout(() => {
+        if (onClose) onClose();
+      }, 3000);
     } catch (err) {
       console.error('Registration error:', err);
       setError(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
+      // Show error in alert for better visibility
+      alert(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
