@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import TestEmailComponent from '../utils/TestEmailComponent';
 
 const EmailTemplates = () => {
-  const [activeTemplate, setActiveTemplate] = useState<'student' | 'admin'>('student');
+  const [activeTemplate, setActiveTemplate] = useState<'student' | 'admin' | 'test'>('student');
 
   return (
     <div className="min-h-screen bg-[#020817] py-12">
@@ -33,6 +34,16 @@ const EmailTemplates = () => {
           >
             Admin Template
           </button>
+          <button
+            onClick={() => setActiveTemplate('test')}
+            className={`px-6 py-2 rounded-lg transition-all ${
+              activeTemplate === 'test'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                : 'bg-gray-800 text-gray-400'
+            }`}
+          >
+            Test EmailJS
+          </button>
         </div>
 
         {/* Template Preview */}
@@ -42,7 +53,9 @@ const EmailTemplates = () => {
           transition={{ duration: 0.5 }}
           className="bg-white rounded-lg shadow-xl overflow-hidden"
         >
-          {activeTemplate === 'student' ? (
+          {activeTemplate === 'test' ? (
+            <TestEmailComponent />
+          ) : activeTemplate === 'student' ? (
             <iframe
               src={`${import.meta.env.BASE_URL}templates/studentRegistrationEmail.html`}
               className="w-full h-[600px] border-0"

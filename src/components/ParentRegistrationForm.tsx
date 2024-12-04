@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
-import { sendRegistrationEmail } from '../utils/emailService';
+import { sendRegistrationEmail } from '../utils';
 
 interface ParentRegistrationFormProps {
   courseTitle?: string;
@@ -47,18 +47,11 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
   };
 
   const addChild = () => {
-    setChildren(prev => [...prev, {
-      fullName: '',
-      age: '',
-      education: '',
-      previousCoding: 'no'
-    }]);
+    setChildren(prev => [...prev, { fullName: '', age: '', education: '', previousCoding: 'no' }]);
   };
 
   const removeChild = (index: number) => {
-    if (children.length > 1) {
-      setChildren(prev => prev.filter((_, i) => i !== index));
-    }
+    setChildren(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,65 +59,32 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
     setIsSubmitting(true);
     setError(null);
 
-    // Basic validation
-    if (!parentData.fullName.trim()) {
-      setError('Please enter parent\'s full name');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!parentData.email.trim()) {
-      setError('Please enter parent\'s email address');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!children[0].fullName.trim()) {
-      setError('Please enter child\'s full name');
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      console.log('Starting parent registration process...');
-      // Send registration email for each child
-      const registrationResults = [];
-      
+      // Submit registration for each child
       for (const child of children) {
-        console.log('Processing registration for child:', child.fullName);
-        const result = await sendRegistrationEmail({
-          to_email: parentData.email || "geniusinstitute2024@gmail.com",
+        const emailData = {
           to_name: parentData.fullName,
-          course_title: courseTitle ?? 'Unknown Course',
+          to_email: parentData.email,
+          course_title: courseTitle || '',
           class_type: parentData.classType,
           class_mode: parentData.classMode,
           student_name: child.fullName,
           student_age: child.age,
-          contact: parentData.phone || parentData.email || "Not provided",
-          parent_name: parentData.fullName
-        });
-        
-        registrationResults.push(result);
-        console.log('Registration result for', child.fullName, ':', result);
+          parent_name: parentData.fullName,
+          contact: parentData.phone,
+          education: child.education,
+          previous_coding: child.previousCoding
+        };
+
+        await sendRegistrationEmail(emailData);
       }
 
-      const allSuccessful = registrationResults.every(result => result.success);
-      
-      if (allSuccessful) {
-        setSuccess(true);
-        setTimeout(() => {
-          onClose?.();
-        }, 3000);
-      } else {
-        throw new Error('Some registrations failed to complete');
-      }
+      setSuccess(true);
+      setTimeout(() => {
+        onClose?.();
+      }, 3000);
     } catch (err) {
-      console.error('Parent registration error:', err);
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Failed to submit registration. Please try again or contact support.');
-      }
+      setError(err instanceof Error ? err.message : 'Failed to submit registration');
     } finally {
       setIsSubmitting(false);
     }
