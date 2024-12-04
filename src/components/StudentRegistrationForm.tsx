@@ -49,24 +49,32 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
         class_mode: formData.classMode || 'Online',
         student_name: formData.fullName,
         student_age: formData.age,
-        contact: formData.phone || formData.email,
-        education: formData.education || 'Not specified',
-        previous_coding: formData.previousCoding || 'None'
+        contact: formData.phone,
+        education: formData.education,
+        previous_coding: formData.previousCoding
       });
 
       if (result.success) {
         setSuccess(true);
-        if (onClose) {
-          setTimeout(onClose, 3000);
-        }
+        setFormData({
+          fullName: '',
+          age: '',
+          email: '',
+          phone: '',
+          classType: 'private',
+          classMode: 'remote',
+          education: '',
+          previousCoding: 'no'
+        });
+        setTimeout(() => {
+          onClose();
+        }, 2000);
       } else {
         setError(result.error || 'Failed to submit registration');
-        console.error('Registration error:', result.error);
       }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
-      setError(errorMessage);
-      console.error('Registration error:', error);
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

@@ -73,49 +73,60 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError('');
-    
-    try {
-      console.log('Submitting registration for child:', parentData.fullName);
-      
-      const result = await submitRegistration({
-        to_name: parentData.fullName,
-        to_email: parentData.email,
-        course_title: courseTitle || '',
-        class_type: parentData.classType,
-        class_mode: parentData.classMode,
-        student_name: parentData.fullName,
-        student_age: parentData.age,
-        parent_name: parentData.fullName,
-        contact: parentData.phone,
-        education: parentData.education,
-        previous_coding: parentData.previousCoding
-      });
+    setError(null);
+    setSuccess(false);
 
-      if (result.success) {
-        setSuccess(true);
-        setParentData({
-          fullName: '',
-          email: '',
-          phone: '',
-          address: '',
-          preferredContact: 'email',
-          classType: 'private',
-          classMode: 'remote',
-          age: '',
-          education: '',
-          previousCoding: 'no'
+    try {
+      console.log('Submitting parent registration:', parentData.fullName);
+      
+      // Submit registration for each child
+      for (const child of children) {
+        const result = await submitRegistration({
+          to_name: parentData.fullName,
+          to_email: parentData.email,
+          course_title: courseTitle || 'Not specified',
+          class_type: parentData.classType,
+          class_mode: parentData.classMode,
+          parent_name: parentData.fullName,
+          contact: parentData.phone,
+          student_name: child.fullName,
+          student_age: child.age,
+          education: child.education,
+          previous_coding: child.previousCoding
         });
-        setChildren([]);
-        if (onClose) onClose();
-      } else {
-        setError(result.error || 'Failed to submit registration');
-        console.error('Registration error:', result.error);
+
+        if (!result.success) {
+          throw new Error(result.error || `Failed to register child: ${child.fullName}`);
+        }
       }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
-      setError(errorMessage);
-      console.error('Registration error:', error);
+
+      setSuccess(true);
+      // Reset form
+      setParentData({
+        fullName: '',
+        email: '',
+        phone: '',
+        address: '',
+        preferredContact: 'email',
+        classType: 'private',
+        classMode: 'remote',
+        age: '',
+        education: '',
+        previousCoding: 'no'
+      });
+      setChildren([{
+        fullName: '',
+        age: '',
+        education: '',
+        previousCoding: 'no'
+      }]);
+
+      setTimeout(() => {
+        onClose?.();
+      }, 2000);
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

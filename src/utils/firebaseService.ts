@@ -3,25 +3,26 @@ import { getFirestore, collection, addDoc, Timestamp, Firestore } from 'firebase
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "giit-registration.firebaseapp.com",
-  projectId: "giit-registration",
-  storageBucket: "giit-registration.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBfXqFxDrAVRQhEgmSQQKsYGZWWXHxFmLU",
+  authDomain: "giit2024.firebaseapp.com",
+  projectId: "giit2024",
+  storageBucket: "giit2024.appspot.com",
+  messagingSenderId: "795835746549",
+  appId: "1:795835746549:web:4f0b3e4c9c0e5c2d9c6f0a"
 };
 
 // Initialize Firebase
 let app;
 let db: Firestore;
+let isInitialized = false;
 
 try {
   app = initializeApp(firebaseConfig);
   db = getFirestore(app);
+  isInitialized = true;
   console.log('Firebase initialized successfully');
 } catch (error) {
   console.error('Error initializing Firebase:', error);
-  throw new Error('Failed to initialize Firebase');
 }
 
 export interface RegistrationData {
@@ -36,13 +37,12 @@ export interface RegistrationData {
   contact?: string;
   education?: string;
   previous_coding?: string;
-  timestamp?: Date;
 }
 
 export async function submitRegistration(data: RegistrationData): Promise<{ success: boolean; error?: string }> {
   try {
-    if (!db) {
-      throw new Error('Firebase is not initialized');
+    if (!isInitialized || !db) {
+      throw new Error('Firebase is not properly initialized');
     }
 
     console.log('Starting registration process with data:', JSON.stringify(data, null, 2));
@@ -52,7 +52,7 @@ export async function submitRegistration(data: RegistrationData): Promise<{ succ
       throw new Error('Missing required fields: email, name, or course title');
     }
 
-    // Add timestamp and format data
+    // Add timestamp and metadata
     const registrationData = {
       ...data,
       timestamp: Timestamp.now(),
@@ -78,4 +78,4 @@ export async function submitRegistration(data: RegistrationData): Promise<{ succ
       error: `Registration failed: ${errorMessage}`
     };
   }
-} 
+}
