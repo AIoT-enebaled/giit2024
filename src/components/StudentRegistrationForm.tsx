@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
-import { sendRegistrationEmail } from '../utils';
+import { submitRegistration } from '../utils/firebaseService';
 
 interface StudentRegistrationFormProps {
   courseTitle: string;
@@ -39,29 +39,9 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
     setSuccess(false);
 
     try {
-      // Validate required fields
-      const requiredFields = {
-        'Full Name': formData.fullName,
-        'Email': formData.email,
-        'Age': formData.age
-      };
-
-      const missingFields = Object.entries(requiredFields)
-        .filter(([_, value]) => !value)
-        .map(([field]) => field);
-
-      if (missingFields.length > 0) {
-        throw new Error(`Please fill in the following required fields: ${missingFields.join(', ')}`);
-      }
-
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        throw new Error('Please enter a valid email address');
-      }
-
-      // Prepare email data
-      const emailData = {
+      console.log('Submitting student registration:', formData.fullName);
+      
+      const result = await submitRegistration({
         to_name: formData.fullName,
         to_email: formData.email,
         course_title: courseTitle || 'Not specified',
@@ -72,37 +52,21 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
         contact: formData.phone || formData.email,
         education: formData.education || 'Not specified',
         previous_coding: formData.previousCoding || 'None'
-      };
-
-      console.log('Sending student registration email with data:', emailData);
-      const response = await sendRegistrationEmail(emailData);
-      
-      if (!response.success) {
-        console.error('Email service response:', response);
-        throw new Error(response.error || 'Failed to send registration email. Please try again later.');
-      }
-
-      setSuccess(true);
-      setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        age: '',
-        education: '',
-        previousCoding: '',
-        classType: 'regular',
-        classMode: 'online'
       });
 
-      // Show success message for 3 seconds before closing
-      setTimeout(() => {
-        if (onClose) onClose();
-      }, 3000);
-    } catch (err) {
-      console.error('Registration error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
-      // Show error in alert for better visibility
-      alert(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
+      if (result.success) {
+        setSuccess(true);
+        if (onClose) {
+          setTimeout(onClose, 3000);
+        }
+      } else {
+        setError(result.error || 'Failed to submit registration');
+        console.error('Registration error:', result.error);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      setError(errorMessage);
+      console.error('Registration error:', error);
     } finally {
       setIsSubmitting(false);
     }

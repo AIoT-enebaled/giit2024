@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
-import { sendRegistrationEmail } from '../utils/emailService';
+import { submitRegistration } from '../utils/firebaseService';
 
 interface ParentRegistrationFormProps {
   courseTitle?: string;
@@ -12,6 +12,19 @@ interface ParentRegistrationFormProps {
   courses?: string[];
 }
 
+interface ParentData {
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  preferredContact: string;
+  classType: string;
+  classMode: string;
+  age: string;
+  education: string;
+  previousCoding: string;
+}
+
 const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseTitle, price, onClose, courses }) => {
   const [children, setChildren] = useState([{
     fullName: '',
@@ -19,14 +32,17 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
     education: '',
     previousCoding: 'no'
   }]);
-  const [parentData, setParentData] = useState({
+  const [parentData, setParentData] = useState<ParentData>({
     fullName: '',
     email: '',
     phone: '',
     address: '',
     preferredContact: 'email',
     classType: 'private',
-    classMode: 'remote'
+    classMode: 'remote',
+    age: '',
+    education: '',
+    previousCoding: 'no'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -58,52 +74,48 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
-
+    
     try {
-      // Validate required fields
-      if (!parentData.fullName || !parentData.email || !parentData.phone || children.length === 0) {
-        throw new Error('Please fill in all required fields and add at least one child.');
-      }
-
-      // Send registration email for each child
-      for (const child of children) {
-        const emailData = {
-          to_name: parentData.fullName,
-          to_email: parentData.email,
-          course_title: courseTitle || '',
-          class_type: parentData.classType,
-          class_mode: parentData.classMode,
-          student_name: child.fullName,
-          student_age: child.age,
-          parent_name: parentData.fullName,
-          contact: parentData.phone,
-          education: child.education,
-          previous_coding: child.previousCoding
-        };
-
-        console.log('Sending registration email for child:', child.fullName);
-        const response = await sendRegistrationEmail(emailData);
-        
-        if (!response.success) {
-          throw new Error(response.error || 'Failed to send registration email');
-        }
-      }
-
-      setSuccess(true);
-      setParentData({
-        fullName: '',
-        email: '',
-        phone: '',
-        address: '',
-        preferredContact: 'email',
-        classType: 'private',
-        classMode: 'remote'
+      console.log('Submitting registration for child:', parentData.fullName);
+      
+      const result = await submitRegistration({
+        to_name: parentData.fullName,
+        to_email: parentData.email,
+        course_title: courseTitle || '',
+        class_type: parentData.classType,
+        class_mode: parentData.classMode,
+        student_name: parentData.fullName,
+        student_age: parentData.age,
+        parent_name: parentData.fullName,
+        contact: parentData.phone,
+        education: parentData.education,
+        previous_coding: parentData.previousCoding
       });
-      setChildren([]);
-      if (onClose) onClose();
-    } catch (err) {
-      console.error('Registration error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
+
+      if (result.success) {
+        setSuccess(true);
+        setParentData({
+          fullName: '',
+          email: '',
+          phone: '',
+          address: '',
+          preferredContact: 'email',
+          classType: 'private',
+          classMode: 'remote',
+          age: '',
+          education: '',
+          previousCoding: 'no'
+        });
+        setChildren([]);
+        if (onClose) onClose();
+      } else {
+        setError(result.error || 'Failed to submit registration');
+        console.error('Registration error:', result.error);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      setError(errorMessage);
+      console.error('Registration error:', error);
     } finally {
       setIsSubmitting(false);
     }

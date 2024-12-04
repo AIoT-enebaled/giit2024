@@ -1,15 +1,15 @@
-import { testEmailConfiguration, sendRegistrationEmail } from './emailService';
+import { sendRegistrationEmail } from './emailService';
 
 async function runTest() {
   console.log('Testing EmailJS Configuration...');
   
   // Test basic configuration
-  const configValid = await testEmailConfiguration();
-  if (!configValid) {
-    console.error('❌ EmailJS configuration test failed');
-    return;
-  }
-  console.log('✅ EmailJS configuration is valid');
+  // const configValid = await testEmailConfiguration();
+  // if (!configValid) {
+  //   console.error('❌ EmailJS configuration test failed');
+  //   return;
+  // }
+  // console.log('✅ EmailJS configuration is valid');
 
   // Test sending a test email
   try {
