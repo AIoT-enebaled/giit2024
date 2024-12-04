@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChatbotService from '../chatbot/ChatbotService';
 
 interface Message {
@@ -8,13 +8,18 @@ interface Message {
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([{
-    content: "Hi! I'm the GiiT Assistant. I can help you learn about our courses and programs. What would you like to know?",
-    sender: 'bot'
-  }]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const chatbotService = ChatbotService.getInstance();
+
+  useEffect(() => {
+    // Initialize with welcome message
+    setMessages([{
+      content: "Hi! I'm the GiiT Assistant. I can help you learn about our courses and programs. What would you like to know?",
+      sender: 'bot'
+    }]);
+  }, []);
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,18 +55,19 @@ const ChatBot: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="fixed bottom-0 right-0 z-[9999]">
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:bg-blue-700 transition-colors"
+        className="fixed bottom-20 right-4 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+        style={{ zIndex: 9999 }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 mx-auto"
         >
           <path
             strokeLinecap="round"
@@ -74,7 +80,10 @@ const ChatBot: React.FC = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 w-96 h-[500px] bg-white rounded-lg shadow-2xl flex flex-col z-50">
+        <div 
+          className="fixed bottom-40 right-4 w-96 h-[500px] bg-white rounded-lg shadow-2xl flex flex-col overflow-hidden"
+          style={{ zIndex: 9999 }}
+        >
           <div className="p-4 bg-blue-600 text-white rounded-t-lg flex justify-between items-center">
             <h2 className="text-xl font-semibold">Chat with GiiT Assistant</h2>
             <button
@@ -126,7 +135,7 @@ const ChatBot: React.FC = () => {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-blue-600 bg-white"
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-blue-600 bg-white text-gray-800"
                 disabled={isLoading}
               />
               <button
@@ -140,7 +149,7 @@ const ChatBot: React.FC = () => {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
