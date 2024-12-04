@@ -25,15 +25,22 @@ export interface EmailData {
   previous_coding?: string;
 }
 
-export async function sendRegistrationEmail(data: EmailData): Promise<{ success: boolean; studentResponse?: EmailJSResponseStatus; adminResponse?: EmailJSResponseStatus }> {
+export async function sendRegistrationEmail(data: EmailData): Promise<{ success: boolean; studentResponse?: EmailJSResponseStatus; adminResponse?: EmailJSResponseStatus; error?: string }> {
   try {
+    console.log('Starting email sending process...');
+    
+    // Validate input data
+    if (!data.to_email || !data.to_name || !data.course_title) {
+      throw new Error('Missing required fields: to_email, to_name, or course_title');
+    }
+
     // Prepare student/parent email template parameters
     const studentTemplateParams = {
       to_name: data.to_name,
       to_email: data.to_email,
       course_title: data.course_title,
-      class_type: data.class_type,
-      class_mode: data.class_mode,
+      class_type: data.class_type || 'Not specified',
+      class_mode: data.class_mode || 'Not specified',
       student_name: data.student_name || data.to_name,
       student_age: data.student_age || 'Not specified',
       parent_name: data.parent_name || 'Not specified',
@@ -42,13 +49,15 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
       previous_coding: data.previous_coding || 'Not specified'
     };
 
-    console.log('Sending student/parent confirmation email with params:', studentTemplateParams);
+    console.log('Student template parameters:', studentTemplateParams);
 
     // Send email to student/parent
+    console.log('Sending student/parent email...');
     const studentResponse = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_STUDENT_TEMPLATE_ID,
-      studentTemplateParams
+      studentTemplateParams,
+      EMAILJS_PUBLIC_KEY // Add public key here explicitly
     );
 
     console.log('Student/parent email sent successfully:', studentResponse);
@@ -58,8 +67,8 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
       to_name: 'GIIT Admin',
       to_email: ADMIN_EMAIL,
       course_title: data.course_title,
-      class_type: data.class_type,
-      class_mode: data.class_mode,
+      class_type: data.class_type || 'Not specified',
+      class_mode: data.class_mode || 'Not specified',
       student_name: data.student_name || data.to_name,
       student_age: data.student_age || 'Not specified',
       parent_name: data.parent_name || 'Not specified',
@@ -71,13 +80,15 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
       reply_to: data.to_email
     };
 
-    console.log('Sending admin notification email with params:', adminTemplateParams);
+    console.log('Admin template parameters:', adminTemplateParams);
 
     // Send notification to admin
+    console.log('Sending admin notification...');
     const adminResponse = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_ADMIN_TEMPLATE_ID,
-      adminTemplateParams
+      adminTemplateParams,
+      EMAILJS_PUBLIC_KEY // Add public key here explicitly
     );
 
     console.log('Admin email sent successfully:', adminResponse);
@@ -89,6 +100,16 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
     };
   } catch (error) {
     console.error('Failed to send email:', error);
-    throw error;
+    let errorMessage = 'Unknown error occurred';
+    
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    
+    // Return detailed error information
+    return {
+      success: false,
+      error: `Email sending failed: ${errorMessage}`
+    };
   }
 }

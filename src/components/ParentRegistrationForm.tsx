@@ -57,10 +57,15 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError(null);
+    setError('');
 
     try {
-      // Submit registration for each child
+      // Validate required fields
+      if (!parentData.fullName || !parentData.email || !parentData.phone || children.length === 0) {
+        throw new Error('Please fill in all required fields and add at least one child.');
+      }
+
+      // Send registration email for each child
       for (const child of children) {
         const emailData = {
           to_name: parentData.fullName,
@@ -76,15 +81,29 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
           previous_coding: child.previousCoding
         };
 
-        await sendRegistrationEmail(emailData);
+        console.log('Sending registration email for child:', child.fullName);
+        const response = await sendRegistrationEmail(emailData);
+        
+        if (!response.success) {
+          throw new Error(response.error || 'Failed to send registration email');
+        }
       }
 
       setSuccess(true);
-      setTimeout(() => {
-        onClose?.();
-      }, 3000);
+      setParentData({
+        fullName: '',
+        email: '',
+        phone: '',
+        address: '',
+        preferredContact: 'email',
+        classType: 'private',
+        classMode: 'remote'
+      });
+      setChildren([]);
+      if (onClose) onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to submit registration');
+      console.error('Registration error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

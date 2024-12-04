@@ -35,29 +35,50 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError(null);
+    setError('');
 
     try {
+      // Validate required fields
+      if (!formData.fullName || !formData.email || !formData.age) {
+        throw new Error('Please fill in all required fields (Name, Email, and Age)');
+      }
+
+      // Prepare email data
       const emailData = {
         to_name: formData.fullName,
         to_email: formData.email,
-        course_title: courseTitle,
-        class_type: formData.classType,
-        class_mode: formData.classMode,
+        course_title: courseTitle || 'Not specified',
+        class_type: formData.classType || 'Regular',
+        class_mode: formData.classMode || 'Online',
         student_name: formData.fullName,
         student_age: formData.age,
-        contact: formData.phone,
-        education: formData.education,
-        previous_coding: formData.previousCoding
+        contact: formData.phone || formData.email,
+        education: formData.education || 'Not specified',
+        previous_coding: formData.previousCoding || 'None'
       };
 
-      await sendRegistrationEmail(emailData);
+      console.log('Sending student registration email...');
+      const response = await sendRegistrationEmail(emailData);
+      
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to send registration email');
+      }
+
       setSuccess(true);
-      setTimeout(() => {
-        onClose();
-      }, 3000);
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        age: '',
+        education: '',
+        previousCoding: '',
+        classType: 'regular',
+        classMode: 'online'
+      });
+      if (onClose) onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to submit registration');
+      console.error('Registration error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to process registration. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
