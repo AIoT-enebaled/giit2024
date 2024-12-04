@@ -8,6 +8,7 @@ import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import EmailTemplates from './pages/EmailTemplates';
 import Footer from './components/Footer';
+import ChatBot from './components/ChatBot';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/email-templates" element={<EmailTemplates />} />
           </Routes>
         </main>
+        <ChatBot />
         <Footer />
       </div>
     </HashRouter>
