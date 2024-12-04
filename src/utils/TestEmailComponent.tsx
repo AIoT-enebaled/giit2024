@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { sendRegistrationEmail } from './emailService';
 
 export const TestEmailComponent: React.FC = () => {
-  const [status, setStatus] = useState<string>('Initializing...');
+  const [status, setStatus] = useState<string>('');
 
   useEffect(() => {
     const runTest = async () => {
-      setStatus('Testing EmailJS Configuration...');
+      setStatus('Processing registration...');
       
       try {
         const testData = {
           to_name: 'Test User',
-          to_email: 'geniusinstitute2024@gmail.com', // Using admin email for testing
+          to_email: 'geniusinstitute2024@gmail.com',
           course_title: 'Test Course',
           class_type: 'Test Class Type',
           class_mode: 'Online',
@@ -19,22 +19,24 @@ export const TestEmailComponent: React.FC = () => {
           student_age: '20',
           parent_name: 'Test Parent',
           contact: '1234567890',
+          education: 'High School',
+          previous_coding: 'None'
         };
 
-        setStatus('Attempting to send test email...');
-        const result = await sendRegistrationEmail(testData);
+        setStatus('Sending registration confirmation...');
+        const emailResult = await sendRegistrationEmail(testData);
         
-        if (result.success) {
-          setStatus('✅ Test email sent successfully');
-          console.log('Success details:', result);
+        if (emailResult) {
+          setStatus('✅ Registration complete! Email sent successfully');
+          console.log('Success details:', emailResult);
         } else {
-          setStatus(`❌ Failed to send test email: ${result.error}`);
-          console.error('Error details:', result);
+          setStatus('❌ Registration failed. Please try again.');
+          console.error('Email sending failed');
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        setStatus(`❌ Test failed with error: ${errorMessage}`);
-        console.error('Test error:', error);
+        setStatus(`❌ Registration failed: ${errorMessage}`);
+        console.error('Registration error:', error);
       }
     };
 
@@ -42,10 +44,9 @@ export const TestEmailComponent: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">EmailJS Test</h2>
-      <p className="mb-2">Status: {status}</p>
-      <p className="text-sm text-gray-600">Check the browser console for detailed results...</p>
+    <div className="text-center p-4">
+      <h2 className="text-xl font-bold mb-4">Registration Status</h2>
+      <p className="text-lg">{status}</p>
     </div>
   );
 };
