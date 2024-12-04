@@ -8,8 +8,11 @@ const EMAILJS_STUDENT_TEMPLATE_ID = "template_fis3lfw";
 const EMAILJS_ADMIN_TEMPLATE_ID = "template_8jt9xba";
 const ADMIN_EMAIL = "geniusinstitute2024@gmail.com";
 
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
+// Initialize EmailJS with user ID
+emailjs.init({
+  publicKey: EMAILJS_PUBLIC_KEY,
+  limitRate: { id: 'my_limit', emails: 100 } as any
+});
 
 export interface EmailData {
   to_name: string;
@@ -46,7 +49,9 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
       parent_name: data.parent_name || 'Not specified',
       contact: data.contact || data.to_email,
       education: data.education || 'Not specified',
-      previous_coding: data.previous_coding || 'Not specified'
+      previous_coding: data.previous_coding || 'Not specified',
+      from_name: 'GIIT - Genius Institute of Information Technology',
+      reply_to: ADMIN_EMAIL
     };
 
     console.log('Student template parameters:', studentTemplateParams);
@@ -56,8 +61,7 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
     const studentResponse = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_STUDENT_TEMPLATE_ID,
-      studentTemplateParams,
-      EMAILJS_PUBLIC_KEY // Add public key here explicitly
+      studentTemplateParams
     );
 
     console.log('Student/parent email sent successfully:', studentResponse);
@@ -77,7 +81,8 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
       education: data.education || 'Not specified',
       previous_coding: data.previous_coding || 'Not specified',
       subject: `New Course Registration - ${data.course_title}`,
-      reply_to: data.to_email
+      reply_to: data.to_email,
+      from_name: 'GIIT Registration System'
     };
 
     console.log('Admin template parameters:', adminTemplateParams);
@@ -87,8 +92,7 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
     const adminResponse = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_ADMIN_TEMPLATE_ID,
-      adminTemplateParams,
-      EMAILJS_PUBLIC_KEY // Add public key here explicitly
+      adminTemplateParams
     );
 
     console.log('Admin email sent successfully:', adminResponse);
@@ -104,6 +108,12 @@ export async function sendRegistrationEmail(data: EmailData): Promise<{ success:
     
     if (error instanceof Error) {
       errorMessage = error.message;
+      // Log specific error details for debugging
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
     }
     
     // Return detailed error information
