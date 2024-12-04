@@ -2,9 +2,6 @@ import { trainingData } from './training_data';
 
 class ChatbotService {
   private static instance: ChatbotService;
-  private model: any = null;
-  private tokenizer: any = null;
-  private isInitialized: boolean = false;
 
   private constructor() {}
 
@@ -15,42 +12,41 @@ class ChatbotService {
     return ChatbotService.instance;
   }
 
-  public async initialize() {
-    if (this.isInitialized) return;
-
-    try {
-      const { pipeline } = await import('@xenova/transformers');
-      
-      // Load the model and tokenizer
-      this.model = await pipeline('text2text-generation', 'Xenova/t5-small');
-      this.isInitialized = true;
-      
-      console.log('Chatbot initialized successfully');
-    } catch (error) {
-      console.error('Error initializing chatbot:', error);
-      throw error;
-    }
+  public async initialize(): Promise<void> {
+    return Promise.resolve();
   }
 
-  private findMostSimilarQuestion(userQuestion: string): string {
-    // Simple similarity scoring using word overlap
-    const userWords = new Set(userQuestion.toLowerCase().split(' '));
+  private findBestMatch(input: string): string {
+    const normalizedInput = input.toLowerCase().trim();
+    const words = normalizedInput.split(/\W+/).filter(word => word.length > 2);
     
     let bestMatch = {
-      question: trainingData[0].question,
+      question: '',
       score: 0
     };
 
     for (const qa of trainingData) {
-      const questionWords = new Set(qa.question.toLowerCase().split(' '));
-      let overlap = 0;
-      
-      for (const word of userWords) {
-        if (questionWords.has(word)) overlap++;
+      const questionWords = qa.question.toLowerCase().split(/\W+/).filter(word => word.length > 2);
+      let matchScore = 0;
+
+      // Check for word matches
+      for (const word of words) {
+        if (questionWords.includes(word)) {
+          matchScore++;
+        }
       }
-      
-      const score = overlap / Math.max(userWords.size, questionWords.size);
-      
+
+      // Boost score for key terms
+      const keyTerms = ['course', 'class', 'register', 'cost', 'price', 'duration', 'learn', 'about'];
+      for (const term of keyTerms) {
+        if (normalizedInput.includes(term) && qa.question.toLowerCase().includes(term)) {
+          matchScore += 0.5;
+        }
+      }
+
+      // Normalize score based on question length
+      const score = matchScore / Math.max(words.length, questionWords.length);
+
       if (score > bestMatch.score) {
         bestMatch = {
           question: qa.question,
@@ -59,34 +55,22 @@ class ChatbotService {
       }
     }
 
-    return bestMatch.question;
+    return bestMatch.score > 0.2 ? bestMatch.question : '';
   }
 
-  private getAnswerForQuestion(question: string): string {
-    const qa = trainingData.find(qa => qa.question === question);
-    return qa ? qa.answer : "I'm sorry, I don't have an answer for that question.";
-  }
-
-  public async getResponse(userQuestion: string): Promise<string> {
-    if (!this.isInitialized) {
-      throw new Error('Chatbot not initialized');
-    }
-
+  public async getResponse(userInput: string): Promise<string> {
     try {
-      // Find the most similar question from our training data
-      const mostSimilarQuestion = this.findMostSimilarQuestion(userQuestion);
-      const answer = this.getAnswerForQuestion(mostSimilarQuestion);
+      const matchedQuestion = this.findBestMatch(userInput);
+      
+      if (!matchedQuestion) {
+        return "I'm not sure about that. You can ask me about our courses, pricing, registration, or class schedules. How can I help you?";
+      }
 
-      // Use T5 to generate a more natural response
-      const response = await this.model(answer, {
-        max_length: 100,
-        temperature: 0.7
-      });
-
-      return response[0].generated_text || answer;
+      const qa = trainingData.find(qa => qa.question === matchedQuestion);
+      return qa?.answer || "I'm sorry, I don't have specific information about that. Is there something else I can help you with?";
     } catch (error) {
-      console.error('Error generating response:', error);
-      return "I'm sorry, I encountered an error while processing your question.";
+      console.error('Error in getResponse:', error);
+      return "I apologize, but I'm having trouble understanding. Could you rephrase your question?";
     }
   }
 }
