@@ -82,21 +82,21 @@ const ParentRegistrationForm: React.FC<ParentRegistrationFormProps> = ({ courseT
       // Submit registration for each child
       for (const child of children) {
         const result = await submitRegistration({
-          to_name: parentData.fullName,
-          to_email: parentData.email,
-          course_title: courseTitle || 'Not specified',
-          class_type: parentData.classType,
-          class_mode: parentData.classMode,
-          parent_name: parentData.fullName,
-          contact: parentData.phone,
-          student_name: child.fullName,
-          student_age: child.age,
-          education: child.education,
-          previous_coding: child.previousCoding
+          fullName: parentData.fullName,
+          email: parentData.email,
+          phone: parentData.phone,
+          address: parentData.address,
+          preferredContact: parentData.preferredContact,
+          classType: parentData.classType,
+          childName: child.fullName,
+          childAge: child.age,
+          selectedCourse: courseTitle || 'Not specified',
+          selectedTime: '',  
+          additionalInfo: `Education: ${child.education}, Previous Coding Experience: ${child.previousCoding}`
         });
 
         if (!result.success) {
-          throw new Error(result.error || `Failed to register child: ${child.fullName}`);
+          throw new Error(`Failed to register child: ${child.fullName}`);
         }
       }
 

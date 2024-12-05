@@ -1,4 +1,5 @@
 import { trainingData } from './training_data';
+import { pythonFundamentals } from './python_fundamentals';
 
 class ChatbotService {
   private static instance: ChatbotService;
@@ -63,6 +64,51 @@ class ChatbotService {
       score: 0
     };
 
+    // Check if the question is about Python
+    if (this.isPythonRelated(input)) {
+      for (const qa of pythonFundamentals) {
+        const questionWords = qa.question.toLowerCase().split(/\W+/).filter(word => word.length > 2);
+        const topicWords = qa.topic.toLowerCase().split(/\W+/).filter(word => word.length > 2);
+        let matchScore = 0;
+
+        // Check for word matches in both question and topic
+        for (const word of words) {
+          if (questionWords.includes(word)) {
+            matchScore += 2;
+          }
+          if (topicWords.includes(word)) {
+            matchScore += 3; // Give higher weight to topic matches
+          }
+        }
+
+        // Boost score for Python-specific terms
+        const pythonTerms = [
+          'python', 'variable', 'type', 'loop', 'if', 'else', 'print',
+          'function', 'class', 'list', 'tuple', 'dictionary', 'set'
+        ];
+
+        if (pythonTerms.some(term => input.includes(term))) {
+          matchScore += 2;
+        }
+
+        // Normalize score
+        const normalizedScore = matchScore / Math.max(words.length, questionWords.length);
+
+        if (normalizedScore > bestMatch.score) {
+          bestMatch = {
+            answer: qa.answer,
+            score: normalizedScore
+          };
+        }
+      }
+
+      // If we found a good Python-related match, return it
+      if (bestMatch.score > 0.3) {
+        return bestMatch.answer;
+      }
+    }
+
+    // If no Python match found or not a Python question, check regular training data
     for (const qa of trainingData) {
       const questionWords = qa.question.toLowerCase().split(/\W+/).filter(word => word.length > 2);
       let matchScore = 0;
@@ -111,6 +157,15 @@ class ChatbotService {
 
     // Only return if we have a reasonably good match
     return bestMatch.score > 0.3 ? bestMatch.answer : '';
+  }
+
+  private isPythonRelated(input: string): boolean {
+    const pythonKeywords = [
+      'python', 'programming', 'code', 'variable', 'function', 'class',
+      'loop', 'if', 'else', 'print', 'data type', 'list', 'tuple',
+      'dictionary', 'set', 'boolean', 'string', 'integer', 'float'
+    ];
+    return pythonKeywords.some(keyword => input.toLowerCase().includes(keyword));
   }
 }
 

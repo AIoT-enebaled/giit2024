@@ -1,0 +1,365 @@
+Introduction to Python {Programming} 
+
+2.Welcome to the beginner-friendly 6 months full Python for everything course! In this course, we will cover all from the basics to advanced concepts of Python programming. Python is a popular programming language used for a variety of applications, from web development to data analysis and artificial intelligence. It is also a great language for beginners to learn due to its simple syntax and readability. By the end of this course, you will have a solid foundation in Python programming and be able to create your own programs!
+# Hello World program in Python 
+1. print("Hello, World!")
+2.  
+
+The above code is an example of a simple Python program. The print() function is used to display the text "Hello, World!" on the screen. As you can see, Python has a simple syntax and is easy to read and understand.
+5.  
+
+Data Types and Variables
+
+1. In Python, data types are used to classify different types of data. Variables are used to store values in memory and can be assigned different data types.
+2.  
+# Examples of data types and variables 
+# Integers: these are numbers(int) 
+num = 10
+ 
+
+# Floats numbers with decimals
+pi = 3.14 
+  
+
+# Strings English statements in quotes 
+name = 'John' “Kayden”
+  
+
+# Booleans it either True or False
+is_true = True 
+
+
+# Lists
+my_list = [1, 2, 3] 
+  
+
+# Tuples
+coordinates = (4, 5) 
+  
+
+# Dictionaries 
+my_dict = {'name': 'John', 'age': 25} 
+  
+
+# Sets 
+my_set = {1, 2, 3} 
+  
+
+
+
+
+
+
+
+
+
+
+
+Conditional Statements 
+Conditional statements are used to execute a block of code only if a certain condition is met. The most commonly used conditional statement is the 'if' statement.
+Examples include: 
+if
+else
+elif
+Example of an if statement
+
+num = 10 
+if num > 5: 
+print('The number is greater than 5') 
+Output:  
+The number is greater than 5
+  
+In the example above, the 'if' statement checks if the value of 'num' is greater than 5. Since it is, the code inside the if block is executed and 'The number is greater than 5' is printed.
+
+Conditional statements can also include 'else' and 'elif' (short for 'else if') blocks to provide alternate code paths based on additional conditions.
+# Example of an if-else statement 
+num = 2   
+if num > 5:  
+	print('The number is greater than 5')  
+else: 
+	print('The number is less than or equal to 5')  
+# Output: 
+The number is less than or equal to 5
+
+# Example of an if-elif-else statement 
+num = 10 
+if num > 15:
+      print('The number is greater than 15')  
+elif num > 5:  
+	print('The number is greater than 5 but less than or equal to 15')  
+else: 
+	print('The number is less than or equal to 5')  
+# Output:   
+The number is greater than 5 but less than or equal to 15
+
+In the first example above, the 'if-else' statement checks if the value of 'num' is greater than 5. Since it is not, the code inside the 'else' block is executed and 'The number is less than or equal to 5' is printed.
+  
+In the second example above, the 'if-elif-else' statement checks if the value of 'num' is greater than 15. Since it is not, the code inside the first 'elif' block is executed and 'The number is greater than 5 but less than or equal to 15' is printed.
+
+
+Let's create a simple program using only addition (`+`), assignment (`=`), variables (`_`), division (`/`), multiplication (`*`), and modulus (`%`). 
+We'll provide explanations for each part of the code.
+# Simple Arithmetic Program
+  
+# Explanation:
+# - We create two variables: num1 and num2, and assign them values.
+# - We add these two numbers and store the result in the variable 'result'.
+# - We use division to find the quotient and assign it to 'quotient'.
+# - We use multiplication to find the product and assign it to 'product'.
+# - We use modulus to find the remainder and assign it to 'remainder'.
+# - Finally, we print the results.
+  
+
+# Assign values to variables
+num1 = 10
+num2 = 4
+   
+# Add the two numbers
+result = num1 + num2
+  
+# Find the quotient (division)
+quotient = num1 / num2
+  
+# Find the product (multiplication)
+product = num1 * num2
+  
+# Find the remainder (modulus)
+remainder = num1 % num2  
+Print the results
+print("Result of addition:", result)
+print("Quotient (Division):", quotient)
+print("Product (Multiplication):", product)
+print("Remainder (Modulus):", remainder)
+  
+
+Explanation:
+We start by assigning the values `10` to `num1` and `4` to `num2`.
+The `+` operator is used to add `num1` and `num2`, and the result is stored in the variable `result`.
+The `/` operator is used to find the quotient when `num1` is divided by `num2`, and the result is stored in the variable `quotient`.
+The `*` operator is used to find the product of `num1` and `num2`, and the result is stored in the variable `product`.
+The `%` operator is used to find the remainder when `num1` is divided by `num2`, and the result is stored in the variable `remainder`.
+Finally, we print the results to the console.
+ 
+This code demonstrates how these basic operators can be used to perform simple arithmetic operations in Python.
+  
+PROJECT ONE
+
+SIMPLE ARITHMETIC CALCULATOR 
+
+ 
+
+print("Select an operation you want to perform:")
+print("1. Addition")
+print("2. Subtraction")
+print("3. Multiplication")
+print("4. Division")
+
+operation = int(input())
+
+if operation == 1:
+    ##========Addition==========
+    num1 = input ("Enter the first number:")
+    num2 = input ("Enter the second number:")
+    print("The sum of the two numbers is:" + str(int(num1) + int(num2)))
+elif operation == 2:
+	##======== Subtraction ==========
+
+    num1 = input ("Enter the first number:")
+    num2 = input ("Enter the second number:")
+    print("The outcome of the two numbers is:" + str(int(num1) - int(num2)))
+elif operation == 3:
+	##======== Multiplication ==========
+
+    num1 = input ("Enter the first number:")
+    num2 = input ("Enter the second number:")
+    print("The output of the two numbers is:" + str(int(num1) * int(num2)))
+elif operation == 4:
+	##======== Division ==========
+    num1 = input ("Enter the first number:")
+    num2 = input ("Enter the second number:")
+    print("The reminder of the two numbers is:" + str(int(num1) / int(num2)))
+else:
+    print("Invalid input")
+
+
+Loops and Iterations
+  
+Loops are used for executing a set of statements repeatedly.  Python has two types of loops:  for and while loop.
+  
+For Loop
+# Example of for loop 
+
+fruits = ['apple', 'banana', 'cherry'] 
+for fruit in fruits: 
+print(fruit)
+
+Output: 
+apple 
+banana 
+cherry
+
+
+While Loop
+# Example of while loop
+
+i = 1 
+while i < 6: 
+print(i) i += 1
+Output:  
+1 
+2 
+3 
+4
+5
+
+
+Functions
+Functions are a way to group code that performs a specific task, making it easier to reuse and maintain. In Python, functions are defined using the 'def' keyword followed by the function name and any parameters in parentheses. The code block to be executed is indented after the colon.
+
+Function Definition
+def greet(name):   
+print('Hello, ' + name)
+ 
+This example defines a function called 'greet' that takes a parameter 'name' and prints a greeting message. To use this function, we simply call it with an argument for the 'name' parameter:
+greet('John')   
+
+
+# Output: 
+
+Hello, John
+  
+Default Parameter Values
+
+def greet(name='World'):   
+print('Hello, ' + name)
+ 
+This example defines a function called 'greet' that takes an optional parameter 'name' with a default value of 'World'. If no argument is provided for 'name', the default value is used:
+greet()   
+# Output: 
+Hello, World greet('John') 
+# Output: 
+Hello, John
+ 
+
+
+Lists and Tuples
+
+In Python, lists and tuples are used to store collections of items. Lists are mutable, which means that their values can be changed, while tuples are immutable, which means that their values cannot be changed after they are created. 
+# Creating a list 
+my_list = [1, 2, 3, 'hello', 'world'] 
+
+
+# Accessing elements of a list  
+
+print(my_list[0])  
+# Output: 1 
+print(my_list[-1]) 
+
+
+# Output: 'world' 
+# Slicing a list 
+
+print(my_list[1:3])   
+# Output: [2, 3] 
+ 
+
+
+
+# Modifying elements of a list 
+
+my_list[0] = 4  
+print(my_list)  
+# Output: 
+[4, 2, 3, 'hello', 'world'] 
+
+
+Creating a tuple 
+tuple_1 = (1, 2, 3) 
+ 
+
+
+# Accessing elements of a tuple 
+
+
+tuple_2 = ('hello', 'world') 
+print(tuple_2[0]) 
+Output: 'hello' 
+ 
+
+# Trying to modify elements of a tuple 
+# This will raise a TypeError because tuples are immutable tuple_1[0] = 4
+ 
+Dictionaries and Sets
+In Python, dictionaries and sets are two important data structures that allow you to store and manipulate data in a flexible and efficient way. A dictionary is an unordered collection of key-value pairs, while a set is an unordered collection of unique elements.
+  
+# Creating a dictionary 
+  
+
+my_dict = {"apple": 2, "banana": 3, "orange": 4} 
+  
+
+# Accessing values using keys    
+2.  
+print(my_dict["apple"])  
+# Output: 2 
+  
+ 
+
+Adding a new key-value pair 
+my_dict["grape"] = 1  
+
+Removing a key-value pair 
+my_dict.pop("banana")  
+
+Creating a set my_set = {1, 2, 3, 4, 5}
+Adding an element 
+my_set.add(6)  
+
+ Removing an element 
+my_set.remove(3)  
+Set operations set1 = {1, 2, 3} set2 = {2, 3, 4}  
+print(set1.union(set2))  
+Output: {1, 2, 3, 4}  
+print(set1.intersection(set2))  
+Output: {2, 3}  
+print(set1.difference(set2))  
+Output: {1} 
+   
+
+Strings and Formatting
+Introduction to Strings
+In Python, a string is a sequence of characters. Strings are used to represent text data and are enclosed in single or double quotes. In this section, we will learn how to create and manipulate strings in Python.
+String Manipulation
+Python provides a variety of methods to manipulate strings. In this section, we will learn how to perform common string operations such as concatenation, slicing, and formatting.
+  
+# Example of string concatenation
+
+str1 = 'Hello' 
+str2 = 'World!'
+  
+
+# Concatenate two strings 
+
+result = str1 + ' ' + str2 
+print(result)  
+# Output: Hello World! 
+  
+
+# Example of string slicing 
+2.  
+
+1.str = 'Python'  
+# Get the first three characters 
+result = str[:3] print(result) 
+# Output: Pyt 
+  
+# Example of string formatting 
+
+name = 'John' age = 25 
+# Format string using placeholders
+ 
+result = 'My name is {} and I am {} years old.'.format(name, age) 
+print(result) 
+# Output: My name is John and I am 25 years old.
+  
+In the code sample above, we demonstrate some common string operations. We concatenate two strings using the + operator, slice a string using the slice notation [:], and format a string using placeholders.
