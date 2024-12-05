@@ -1,11 +1,30 @@
 import { trainingData } from './training_data';
 import { pythonFundamentals } from './python_fundamentals';
+import MLService from './MLService';
+
+interface ConversationContext {
+  topic: string;
+  lastQuestion: string;
+  lastResponse: string;
+  questionCount: number;
+  pythonMode: boolean;
+}
 
 class ChatbotService {
   private static instance: ChatbotService;
-  private previousContext: string | null = null;
+  private context: ConversationContext;
+  private mlService: MLService;
 
-  private constructor() {}
+  private constructor() {
+    this.mlService = MLService.getInstance();
+    this.context = {
+      topic: '',
+      lastQuestion: '',
+      lastResponse: '',
+      questionCount: 0,
+      pythonMode: false
+    };
+  }
 
   public static getInstance(): ChatbotService {
     if (!ChatbotService.instance) {
@@ -16,30 +35,192 @@ class ChatbotService {
 
   public async getResponse(input: string): Promise<string> {
     const normalizedInput = input.toLowerCase().trim();
+    this.context.questionCount++;
     
-    // Handle common acknowledgments
+    // Handle common acknowledgments with context
     if (this.isAcknowledgment(normalizedInput)) {
-      return "Is there anything else you'd like to know about our courses?";
+      const response = this.context.pythonMode ? 
+        "Would you like to learn more about Python programming? Feel free to ask about any specific topic!" :
+        "What else would you like to know about our courses or programs?";
+      return this.enhanceResponse(response, normalizedInput);
     }
 
-    // Handle greetings
+    // Handle greetings with personalized touch
     if (this.isGreeting(normalizedInput)) {
-      return "Hello! I'm here to help you learn about our courses. What would you like to know?";
+      const response = "Hello! I'm your personal learning assistant at GiiT. I can help you with:\n" +
+        "1. Learning Python programming\n" +
+        "2. Information about our courses\n" +
+        "3. Registration and schedules\n" +
+        "4. Teaching methods and facilities\n\n" +
+        "What interests you the most?";
+      return this.enhanceResponse(response, normalizedInput);
     }
 
-    // Handle goodbyes
+    // Handle goodbyes with context
     if (this.isGoodbye(normalizedInput)) {
-      return "Thank you for your interest in GiiT! If you have any more questions later, feel free to ask.";
+      const response = this.getContextualGoodbye();
+      return this.enhanceResponse(response, normalizedInput);
     }
 
-    const response = this.findBestMatch(normalizedInput);
+    // Try to find a response
+    let response = '';
+    
+    // First check if it's a Python question
+    if (this.isPythonRelated(normalizedInput)) {
+      this.context.pythonMode = true;
+      response = (await this.findPythonMatch(normalizedInput)) ?? '';
+      if (response) {
+        this.context.topic = 'python';
+        this.context.lastResponse = response;
+        this.context.lastQuestion = normalizedInput;
+        return this.enhanceResponse(response, normalizedInput);
+      }
+    }
+
+    // Then check general questions
+    response = (await this.findGeneralMatch(normalizedInput)) ?? '';
     if (response) {
-      this.previousContext = normalizedInput;
+      this.context.pythonMode = false;
+      this.context.lastResponse = response;
+      this.context.lastQuestion = normalizedInput;
+      return this.enhanceResponse(response, normalizedInput);
+    }
+
+    // If no match found, provide a contextual default response
+    return this.enhanceResponse(
+      this.getDefaultResponse(this.isPythonRelated(normalizedInput)),
+      normalizedInput
+    );
+  }
+
+  private async enhanceResponse(response: string, input: string): Promise<string> {
+    try {
+      // Only enhance responses if we have enough context
+      if (this.context.questionCount > 1) {
+        const contextString = `Previous topic: ${this.context.topic}, Previous question: ${this.context.lastQuestion}`;
+        return await this.mlService.enhanceResponse(response, contextString);
+      }
+      return response;
+    } catch (error) {
+      console.error('Error enhancing response:', error);
       return response;
     }
+  }
 
-    // If no good match is found
-    return "I'm not sure about that. You can ask me about our courses, pricing, registration, or schedules. How can I help you?";
+  private getContextualGoodbye(): string {
+    if (this.context.pythonMode) {
+      return "Thanks for learning about Python with me! Remember to practice coding regularly. If you have more questions later, I'll be here to help!";
+    }
+    return "Thank you for your interest in GiiT! We look forward to helping you achieve your tech goals. Feel free to come back if you have any more questions!";
+  }
+
+  private findPythonMatch(input: string): string | null {
+    const normalizedInput = input.toLowerCase().trim();
+
+    // First check for exact matches
+    const exactMatch = pythonFundamentals.find(qa => 
+      normalizedInput === qa.question.toLowerCase().trim() ||
+      normalizedInput === qa.topic.toLowerCase().trim()
+    );
+    
+    if (exactMatch) {
+      return exactMatch.answer;
+    }
+
+    // Then check for contained matches
+    const containsMatch = pythonFundamentals.find(qa =>
+      qa.question.toLowerCase().includes(normalizedInput) ||
+      qa.topic.toLowerCase().includes(normalizedInput)
+    );
+
+    if (containsMatch) {
+      return containsMatch.answer;
+    }
+
+    // Finally do fuzzy matching
+    let bestMatch = {
+      answer: '',
+      score: 0
+    };
+
+    for (const qa of pythonFundamentals) {
+      const score = this.calculateMatchScore(input, qa);
+      if (score > bestMatch.score) {
+        bestMatch = { answer: qa.answer, score: score };
+      }
+    }
+
+    return bestMatch.score >= 0.5 ? bestMatch.answer : null;
+  }
+
+  private findGeneralMatch(input: string): string | null {
+    const normalizedInput = input.toLowerCase().trim();
+    let bestMatch = {
+      answer: '',
+      score: 0
+    };
+
+    for (const qa of trainingData) {
+      const score = this.calculateMatchScore(input, qa);
+      if (score > bestMatch.score) {
+        bestMatch = { answer: qa.answer, score: score };
+      }
+    }
+
+    return bestMatch.score >= 0.4 ? bestMatch.answer : null;
+  }
+
+  private calculateMatchScore(input: string, qa: { question: string; topic?: string }): number {
+    const normalizedInput = input.toLowerCase().trim();
+    const normalizedQuestion = qa.question.toLowerCase().trim();
+    const normalizedTopic = qa.topic?.toLowerCase().trim() || '';
+    let score = 0;
+
+    // Word matching
+    const inputWords = normalizedInput.split(/\W+/).filter(word => word.length > 2);
+    const questionWords = normalizedQuestion.split(/\W+/).filter(word => word.length > 2);
+    const topicWords = normalizedTopic ? normalizedTopic.split(/\W+/).filter(word => word.length > 2) : [];
+
+    // Check for exact phrase matches
+    if (normalizedQuestion.includes(normalizedInput)) {
+      score += 5;
+    }
+    if (normalizedTopic && normalizedTopic.includes(normalizedInput)) {
+      score += 4;
+    }
+
+    // Check for word matches
+    for (const word of inputWords) {
+      if (questionWords.includes(word)) {
+        score += 2;
+      }
+      if (topicWords.includes(word)) {
+        score += 1;
+      }
+    }
+
+    // Normalize score
+    return score / (inputWords.length || 1);
+  }
+
+  private getDefaultResponse(isPythonQuestion: boolean): string {
+    if (isPythonQuestion) {
+      return "I can help you learn about Python programming. You can ask me about:\n" +
+             "- Basic concepts (variables, data types)\n" +
+             "- Lists and collections\n" +
+             "- Functions and methods\n" +
+             "- Control flow (if/else, loops)\n" +
+             "- And more!\n\n" +
+             "What specific Python topic would you like to know about?";
+    }
+    
+    return "I can help you with information about:\n" +
+           "- Our courses and programs\n" +
+           "- Class schedules and duration\n" +
+           "- Registration process\n" +
+           "- Teaching methods\n" +
+           "- And more!\n\n" +
+           "What would you like to know?";
   }
 
   private isAcknowledgment(input: string): boolean {
@@ -57,115 +238,25 @@ class ChatbotService {
     return goodbyes.some(goodbye => input.includes(goodbye));
   }
 
-  private findBestMatch(input: string): string {
-    const words = input.split(/\W+/).filter(word => word.length > 2);
-    let bestMatch = {
-      answer: '',
-      score: 0
-    };
-
-    // Check if the question is about Python
-    if (this.isPythonRelated(input)) {
-      for (const qa of pythonFundamentals) {
-        const questionWords = qa.question.toLowerCase().split(/\W+/).filter(word => word.length > 2);
-        const topicWords = qa.topic.toLowerCase().split(/\W+/).filter(word => word.length > 2);
-        let matchScore = 0;
-
-        // Check for word matches in both question and topic
-        for (const word of words) {
-          if (questionWords.includes(word)) {
-            matchScore += 2;
-          }
-          if (topicWords.includes(word)) {
-            matchScore += 3; // Give higher weight to topic matches
-          }
-        }
-
-        // Boost score for Python-specific terms
-        const pythonTerms = [
-          'python', 'variable', 'type', 'loop', 'if', 'else', 'print',
-          'function', 'class', 'list', 'tuple', 'dictionary', 'set'
-        ];
-
-        if (pythonTerms.some(term => input.includes(term))) {
-          matchScore += 2;
-        }
-
-        // Normalize score
-        const normalizedScore = matchScore / Math.max(words.length, questionWords.length);
-
-        if (normalizedScore > bestMatch.score) {
-          bestMatch = {
-            answer: qa.answer,
-            score: normalizedScore
-          };
-        }
-      }
-
-      // If we found a good Python-related match, return it
-      if (bestMatch.score > 0.3) {
-        return bestMatch.answer;
-      }
-    }
-
-    // If no Python match found or not a Python question, check regular training data
-    for (const qa of trainingData) {
-      const questionWords = qa.question.toLowerCase().split(/\W+/).filter(word => word.length > 2);
-      let matchScore = 0;
-
-      // Check for word matches
-      for (const word of words) {
-        if (questionWords.includes(word)) {
-          matchScore += 2;
-        }
-      }
-
-      // Boost score for key terms
-      const keyTerms = {
-        'course': ['course', 'class', 'program'],
-        'price': ['cost', 'price', 'fee', 'fees', 'pricing', 'pay', 'payment'],
-        'duration': ['long', 'duration', 'time', 'months', 'weeks'],
-        'registration': ['register', 'enroll', 'join', 'start'],
-      };
-
-      for (const [category, terms] of Object.entries(keyTerms)) {
-        if (terms.some(term => input.includes(term))) {
-          matchScore += 3;
-          // If the question also contains this category's terms, boost score
-          if (terms.some(term => qa.question.toLowerCase().includes(term))) {
-            matchScore += 2;
-          }
-        }
-      }
-
-      // Context awareness
-      if (this.previousContext && 
-          qa.question.toLowerCase().includes(this.previousContext)) {
-        matchScore += 2;
-      }
-
-      // Normalize score based on question length
-      const normalizedScore = matchScore / Math.max(words.length, questionWords.length);
-
-      if (normalizedScore > bestMatch.score) {
-        bestMatch = {
-          answer: qa.answer,
-          score: normalizedScore
-        };
-      }
-    }
-
-    // Only return if we have a reasonably good match
-    return bestMatch.score > 0.3 ? bestMatch.answer : '';
-  }
-
   private isPythonRelated(input: string): boolean {
     const pythonKeywords = [
-      'python', 'programming', 'code', 'variable', 'function', 'class',
-      'loop', 'if', 'else', 'print', 'data type', 'list', 'tuple',
-      'dictionary', 'set', 'boolean', 'string', 'integer', 'float'
+      'python', 'list', 'lists', 'variable', 'variables', 'function', 'functions',
+      'loop', 'loops', 'if', 'else', 'print', 'class', 'classes', 'dictionary',
+      'tuple', 'set', 'operator', 'operators'
     ];
-    return pythonKeywords.some(keyword => input.toLowerCase().includes(keyword));
+    
+    const normalizedInput = input.toLowerCase().trim();
+    
+    // If the input is very short (1-2 words), be more lenient
+    if (normalizedInput.split(/\s+/).length <= 2) {
+      return pythonKeywords.some(keyword => normalizedInput.includes(keyword)) ||
+             pythonFundamentals.some(qa => 
+               normalizedInput === qa.question.toLowerCase().trim() ||
+               normalizedInput === qa.topic.toLowerCase().trim()
+             );
+    }
+    
+    return pythonKeywords.some(keyword => normalizedInput.includes(keyword));
   }
 }
 
