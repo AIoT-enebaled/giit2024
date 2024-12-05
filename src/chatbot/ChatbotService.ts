@@ -221,7 +221,7 @@ class ChatbotService {
     };
 
     let phraseBonus = 0;
-    for (const [key, phrases] of Object.entries(keyPhrases)) {
+    for (const [_, phrases] of Object.entries(keyPhrases)) {
       const inputHasPhrase = phrases.some(p => normalizedInput.includes(p));
       const questionHasPhrase = phrases.some(p => normalizedQuestion.includes(p));
       if (inputHasPhrase && questionHasPhrase) {
