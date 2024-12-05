@@ -49,10 +49,8 @@ class ChatbotService {
     if (this.isGreeting(normalizedInput)) {
       const response = "Hello! I'm your personal learning assistant at GiiT. I can help you with:\n" +
         "1. Learning Python programming\n" +
-        "2. Information about our courses\n" +
-        "3. Registration and schedules\n" +
-        "4. Teaching methods and facilities\n\n" +
-        "What interests you the most?";
+        "2. Answering questions about our courses\n" +
+        "3. Providing resources and guidance\n";
       return this.enhanceResponse(response, normalizedInput);
     }
 
@@ -86,18 +84,15 @@ class ChatbotService {
       return this.enhanceResponse(response, normalizedInput);
     }
 
-    // If no match found, provide a contextual default response
-    return this.enhanceResponse(
-      this.getDefaultResponse(this.isPythonRelated(normalizedInput)),
-      normalizedInput
-    );
+    // Default response if no conditions are met
+    return this.enhanceResponse(this.getDefaultResponse(this.isPythonRelated(normalizedInput)), normalizedInput);
   }
 
   private async enhanceResponse(response: string, input: string): Promise<string> {
     try {
       // Only enhance responses if we have enough context
       if (this.context.questionCount > 1) {
-        const contextString = `Previous topic: ${this.context.topic}, Previous question: ${this.context.lastQuestion}`;
+        const contextString = `Previous topic: ${this.context.topic}, Previous question: ${this.context.lastQuestion}, Current input: ${input}`;
         return await this.mlService.enhanceResponse(response, contextString);
       }
       return response;
@@ -161,7 +156,7 @@ class ChatbotService {
     };
 
     for (const qa of trainingData) {
-      const score = this.calculateMatchScore(input, qa);
+      const score = this.calculateMatchScore(normalizedInput, qa);
       if (score > bestMatch.score) {
         bestMatch = { answer: qa.answer, score: score };
       }
