@@ -111,41 +111,48 @@ class ChatbotService {
 
   private findPythonMatch(input: string): string | null {
     const normalizedInput = input.toLowerCase().trim();
-
-    // First check for exact matches
-    const exactMatch = pythonFundamentals.find(qa => 
-      normalizedInput === qa.question.toLowerCase().trim() ||
-      normalizedInput === qa.topic.toLowerCase().trim()
+    
+    // First try exact matches from both datasets
+    const exactPythonMatch = pythonFundamentals.find(qa => 
+      normalizedInput === qa.question.toLowerCase().trim()
     );
     
-    if (exactMatch) {
-      return exactMatch.answer;
-    }
-
-    // Then check for contained matches
-    const containsMatch = pythonFundamentals.find(qa =>
-      qa.question.toLowerCase().includes(normalizedInput) ||
-      qa.topic.toLowerCase().includes(normalizedInput)
+    const exactGeneralMatch = trainingData.find(qa =>
+      normalizedInput === qa.question.toLowerCase().trim() &&
+      qa.topic.toLowerCase() === "courses"
     );
+    
+    if (exactPythonMatch) return exactPythonMatch.answer;
+    if (exactGeneralMatch) return exactGeneralMatch.answer;
 
-    if (containsMatch) {
-      return containsMatch.answer;
-    }
+    // Then try semantic matches with topic context
+    const isPythonQuestion = this.isPythonRelated(normalizedInput);
+    const isCourseQuestion = normalizedInput.includes('course') || 
+                           normalizedInput.includes('class') || 
+                           normalizedInput.includes('cost') ||
+                           normalizedInput.includes('price') ||
+                           normalizedInput.includes('fee');
 
-    // Finally do fuzzy matching
+    // Use appropriate dataset based on context
+    const dataset = isPythonQuestion ? pythonFundamentals : 
+                   isCourseQuestion ? trainingData.filter(qa => qa.topic === "Courses") :
+                   trainingData;
+
+    // Calculate match scores
     let bestMatch = {
       answer: '',
       score: 0
     };
 
-    for (const qa of pythonFundamentals) {
+    for (const qa of dataset) {
       const score = this.calculateMatchScore(input, qa);
       if (score > bestMatch.score) {
         bestMatch = { answer: qa.answer, score: score };
       }
     }
 
-    return bestMatch.score >= 0.5 ? bestMatch.answer : null;
+    // Return match if confidence is high enough
+    return bestMatch.score >= 0.6 ? bestMatch.answer : null;
   }
 
   private findGeneralMatch(input: string): string | null {
@@ -194,30 +201,24 @@ class ChatbotService {
     const normalizedInput = input.toLowerCase().trim();
     const normalizedQuestion = qa.question.toLowerCase().trim();
     
-    // Exact match gets highest score
-    if (normalizedInput === normalizedQuestion) {
-      return 1.0;
-    }
-
-    // Calculate word overlap
-    const inputWords = normalizedInput.split(/\s+/);
-    const questionWords = normalizedQuestion.split(/\s+/);
+    // Split into words and remove common words
+    const commonWords = new Set(['the', 'is', 'at', 'which', 'on', 'in', 'a', 'an', 'and', 'or', 'but', 'how', 'what', 'when', 'where', 'who']);
+    const inputWords = normalizedInput.split(/\s+/).filter(word => !commonWords.has(word));
+    const questionWords = normalizedQuestion.split(/\s+/).filter(word => !commonWords.has(word));
     
-    let matchedWords = 0;
-    for (const word of inputWords) {
-      if (questionWords.includes(word)) {
-        matchedWords++;
-      }
-    }
-
-    // Consider both the percentage of matched words and key phrases
+    // Count matching words
+    const matchedWords = inputWords.filter(word => questionWords.includes(word)).length;
+    
+    // Calculate base score
     const percentageMatch = matchedWords / Math.max(inputWords.length, questionWords.length);
     
     // Check for key phrases that indicate the same intent
-    const keyPhrases: { [key: string]: string[] } = {
-      'cost': ['price', 'how much', 'fee'],
+    const keyPhrases: { [_: string]: string[] } = {
+      'cost': ['price', 'how much', 'fee', 'fees'],
       'duration': ['how long', 'length', 'time'],
-      'schedule': ['when', 'timing', 'hours']
+      'schedule': ['when', 'timing', 'hours'],
+      'location': ['where', 'place', 'address'],
+      'requirements': ['need', 'required', 'prerequisite']
     };
 
     let phraseBonus = 0;
@@ -230,7 +231,10 @@ class ChatbotService {
       }
     }
 
-    return Math.min(1.0, percentageMatch + phraseBonus);
+    // Add topic relevance bonus
+    const topicBonus = qa.topic?.toLowerCase().includes(normalizedInput) ? 0.2 : 0;
+
+    return Math.min(1.0, percentageMatch + phraseBonus + topicBonus);
   }
 
   private getDefaultResponse(isPythonQuestion: boolean): string {

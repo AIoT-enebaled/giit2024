@@ -132,8 +132,18 @@ export const trainingData = [
   },
   {
     topic: "Courses",
-    question: "How much is Python course?",
-    answer: "The Python Full Course costs 3,500,000 UGX (948 USD)."
+    question: "How much is the Python course?",
+    answer: "The Python Full Course costs 3,500,000 UGX (948 USD). This comprehensive course covers Python fundamentals, advanced concepts, and practical applications. The course includes hands-on projects and personalized mentoring."
+  },
+  {
+    topic: "Courses",
+    question: "What is the cost of Python course?",
+    answer: "The Python Full Course costs 3,500,000 UGX (948 USD). This comprehensive course covers Python fundamentals, advanced concepts, and practical applications. The course includes hands-on projects and personalized mentoring."
+  },
+  {
+    topic: "Courses",
+    question: "Python course price",
+    answer: "The Python Full Course costs 3,500,000 UGX (948 USD). This comprehensive course covers Python fundamentals, advanced concepts, and practical applications. The course includes hands-on projects and personalized mentoring."
   },
   {
     topic: "Courses",
