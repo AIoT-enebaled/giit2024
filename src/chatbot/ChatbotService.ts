@@ -152,50 +152,85 @@ class ChatbotService {
     const normalizedInput = input.toLowerCase().trim();
     let bestMatch = {
       answer: '',
-      score: 0
+      score: 0,
+      topic: ''
     };
 
-    for (const qa of trainingData) {
-      const score = this.calculateMatchScore(normalizedInput, qa);
-      if (score > bestMatch.score) {
-        bestMatch = { answer: qa.answer, score: score };
+    // First try to match within the current topic
+    if (this.context.topic) {
+      for (const qa of trainingData) {
+        if (qa.topic === this.context.topic) {
+          const score = this.calculateMatchScore(normalizedInput, qa);
+          if (score > bestMatch.score) {
+            bestMatch = { answer: qa.answer, score: score, topic: qa.topic };
+          }
+        }
+      }
+      
+      // If we found a good match within the current topic, return it
+      if (bestMatch.score >= 0.6) {
+        return bestMatch.answer;
       }
     }
 
-    return bestMatch.score >= 0.4 ? bestMatch.answer : null;
+    // If no good match in current topic, search all topics
+    for (const qa of trainingData) {
+      const score = this.calculateMatchScore(normalizedInput, qa);
+      if (score > bestMatch.score) {
+        bestMatch = { answer: qa.answer, score: score, topic: qa.topic };
+      }
+    }
+
+    // Update context with the new topic if we found a match
+    if (bestMatch.score >= 0.5) {
+      this.context.topic = bestMatch.topic;
+      return bestMatch.answer;
+    }
+
+    return null;
   }
 
   private calculateMatchScore(input: string, qa: { question: string; topic?: string }): number {
     const normalizedInput = input.toLowerCase().trim();
     const normalizedQuestion = qa.question.toLowerCase().trim();
-    const normalizedTopic = qa.topic?.toLowerCase().trim() || '';
-    let score = 0;
-
-    // Word matching
-    const inputWords = normalizedInput.split(/\W+/).filter(word => word.length > 2);
-    const questionWords = normalizedQuestion.split(/\W+/).filter(word => word.length > 2);
-    const topicWords = normalizedTopic ? normalizedTopic.split(/\W+/).filter(word => word.length > 2) : [];
-
-    // Check for exact phrase matches
-    if (normalizedQuestion.includes(normalizedInput)) {
-      score += 5;
-    }
-    if (normalizedTopic && normalizedTopic.includes(normalizedInput)) {
-      score += 4;
+    
+    // Exact match gets highest score
+    if (normalizedInput === normalizedQuestion) {
+      return 1.0;
     }
 
-    // Check for word matches
+    // Calculate word overlap
+    const inputWords = normalizedInput.split(/\s+/);
+    const questionWords = normalizedQuestion.split(/\s+/);
+    
+    let matchedWords = 0;
     for (const word of inputWords) {
       if (questionWords.includes(word)) {
-        score += 2;
-      }
-      if (topicWords.includes(word)) {
-        score += 1;
+        matchedWords++;
       }
     }
 
-    // Normalize score
-    return score / (inputWords.length || 1);
+    // Consider both the percentage of matched words and key phrases
+    const percentageMatch = matchedWords / Math.max(inputWords.length, questionWords.length);
+    
+    // Check for key phrases that indicate the same intent
+    const keyPhrases: { [key: string]: string[] } = {
+      'cost': ['price', 'how much', 'fee'],
+      'duration': ['how long', 'length', 'time'],
+      'schedule': ['when', 'timing', 'hours']
+    };
+
+    let phraseBonus = 0;
+    for (const [key, phrases] of Object.entries(keyPhrases)) {
+      const inputHasPhrase = phrases.some(p => normalizedInput.includes(p));
+      const questionHasPhrase = phrases.some(p => normalizedQuestion.includes(p));
+      if (inputHasPhrase && questionHasPhrase) {
+        phraseBonus = 0.3;
+        break;
+      }
+    }
+
+    return Math.min(1.0, percentageMatch + phraseBonus);
   }
 
   private getDefaultResponse(isPythonQuestion: boolean): string {
@@ -234,21 +269,16 @@ class ChatbotService {
   }
 
   private isPythonRelated(input: string): boolean {
-    const pythonKeywords = [
-      'python', 'list', 'lists', 'variable', 'variables', 'function', 'functions',
-      'loop', 'loops', 'if', 'else', 'print', 'class', 'classes', 'dictionary',
-      'tuple', 'set', 'operator', 'operators'
-    ];
+    const pythonKeywords = ['python', 'programming', 'code', 'function', 'variable', 'loop', 'list', 'dictionary'];
+    const normalizedInput = input.toLowerCase();
     
-    const normalizedInput = input.toLowerCase().trim();
-    
-    // If the input is very short (1-2 words), be more lenient
-    if (normalizedInput.split(/\s+/).length <= 2) {
-      return pythonKeywords.some(keyword => normalizedInput.includes(keyword)) ||
-             pythonFundamentals.some(qa => 
-               normalizedInput === qa.question.toLowerCase().trim() ||
-               normalizedInput === qa.topic.toLowerCase().trim()
-             );
+    // Don't trigger Python mode for course-related questions
+    if (normalizedInput.includes('course') || 
+        normalizedInput.includes('cost') || 
+        normalizedInput.includes('price') || 
+        normalizedInput.includes('how much') || 
+        normalizedInput.includes('how long')) {
+      return false;
     }
     
     return pythonKeywords.some(keyword => normalizedInput.includes(keyword));
