@@ -26,7 +26,8 @@ export const courseCategories = {
   PROGRAMMING_KIDS: 'Programming for Kids',
   WEB_DEVELOPMENT: 'Web Development',
   PROGRAMMING: 'Programming Languages',
-  AI_ML: 'AI & Machine Learning'
+  AI_ML: 'AI & Machine Learning',
+  THINKING_SKILLS: 'Thinking & Innovation'
 } as const;
 
 export const courseCatalogs: CourseCatalog[] = [
@@ -215,6 +216,99 @@ export const courseCatalogs: CourseCatalog[] = [
       'Monday & Wednesday: 4:00 PM - 7:00 PM',
       'Tuesday & Thursday: 5:00 PM - 8:00 PM',
       'Saturday: 1:00 PM - 7:00 PM'
+    ]
+  },
+  {
+    id: 'innovation-creativity',
+    title: 'Innovation and Creativity',
+    category: courseCategories.THINKING_SKILLS,
+    description: 'Develop innovative thinking and creative problem-solving skills for the modern world.',
+    price: { ugx: 450000, usd: 122 },
+    duration: '2 months',
+    ageGroup: 'Ages 6+',
+    image: 'https://images.pexels.com/photos/7376/startup-photos.jpg',
+    objectives: [
+      { title: 'Creative Thinking', description: 'Develop creative thinking and ideation skills' },
+      { title: 'Problem Solving', description: 'Learn effective problem-solving techniques' },
+      { title: 'Innovation Process', description: 'Understand the innovation process and methodologies' },
+      { title: 'Project Development', description: 'Create and develop innovative projects' }
+    ],
+    prerequisites: ['No prior experience required'],
+    curriculum: [
+      'Introduction to creativity and innovation',
+      'Creative thinking techniques',
+      'Problem-solving methodologies',
+      'Innovation process and frameworks',
+      'Project ideation and development',
+      'Presentation skills',
+      'Final innovation project'
+    ],
+    classPeriods: [
+      'Monday & Wednesday: 9:00 AM - 11:00 AM',
+      'Tuesday & Thursday: 2:00 PM - 4:00 PM',
+      'Saturday: 10:00 AM - 2:00 PM'
+    ]
+  },
+  {
+    id: 'critical-thinking',
+    title: 'Critical Thinking',
+    category: courseCategories.THINKING_SKILLS,
+    description: 'Master the art of analytical and critical thinking for better decision making.',
+    price: { ugx: 450000, usd: 122 },
+    duration: '2 months',
+    ageGroup: 'Ages 6+',
+    image: 'https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg',
+    objectives: [
+      { title: 'Analytical Skills', description: 'Develop strong analytical and logical thinking' },
+      { title: 'Decision Making', description: 'Learn effective decision-making processes' },
+      { title: 'Problem Analysis', description: 'Master problem analysis and evaluation' },
+      { title: 'Logical Reasoning', description: 'Enhance logical reasoning capabilities' }
+    ],
+    prerequisites: ['No prior experience required'],
+    curriculum: [
+      'Introduction to critical thinking',
+      'Logical reasoning and analysis',
+      'Decision-making frameworks',
+      'Problem analysis techniques',
+      'Evidence evaluation',
+      'Argument construction',
+      'Final critical analysis project'
+    ],
+    classPeriods: [
+      'Monday & Wednesday: 2:00 PM - 4:00 PM',
+      'Tuesday & Thursday: 9:00 AM - 11:00 AM',
+      'Saturday: 2:00 PM - 6:00 PM'
+    ]
+  },
+  {
+    id: 'design-thinking',
+    title: 'Design Thinking',
+    category: courseCategories.THINKING_SKILLS,
+    description: 'Learn human-centered approach to innovation and problem solving.',
+    price: { ugx: 450000, usd: 122 },
+    duration: '2 months',
+    ageGroup: 'Ages 6+',
+    image: 'https://images.pexels.com/photos/6224/hands-people-woman-working.jpg',
+    objectives: [
+      { title: 'Design Process', description: 'Master the design thinking process' },
+      { title: 'User Research', description: 'Learn effective user research methods' },
+      { title: 'Prototyping', description: 'Develop prototyping and testing skills' },
+      { title: 'Solution Design', description: 'Create user-centered solutions' }
+    ],
+    prerequisites: ['No prior experience required'],
+    curriculum: [
+      'Introduction to design thinking',
+      'Empathy and user research',
+      'Problem definition',
+      'Ideation techniques',
+      'Prototyping methods',
+      'Testing and iteration',
+      'Final design project'
+    ],
+    classPeriods: [
+      'Monday & Wednesday: 9:00 AM - 11:00 AM',
+      'Tuesday & Thursday: 2:00 PM - 4:00 PM',
+      'Saturday: 10:00 AM - 2:00 PM'
     ]
   }
 ];
