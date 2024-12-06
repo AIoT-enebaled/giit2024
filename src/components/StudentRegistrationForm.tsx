@@ -12,6 +12,11 @@ interface StudentRegistrationFormProps {
   onClose: () => void;
 }
 
+interface RegistrationResult {
+  success: boolean;
+  error?: string;
+}
+
 const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ courseTitle, price, courses, onClose }) => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -41,17 +46,18 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
     try {
       console.log('Submitting student registration:', formData.fullName);
       
-      const result = await submitRegistration({
-        to_name: formData.fullName,
-        to_email: formData.email,
-        course_title: courseTitle || 'Not specified',
-        class_type: formData.classType || 'Regular',
-        class_mode: formData.classMode || 'Online',
-        student_name: formData.fullName,
-        student_age: formData.age,
-        contact: formData.phone,
-        education: formData.education,
-        previous_coding: formData.previousCoding
+      const result: RegistrationResult = await submitRegistration({
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        address: '',  
+        preferredContact: 'email',  
+        classType: formData.classType || 'Regular',
+        childName: formData.fullName,  
+        childAge: formData.age,
+        selectedCourse: courseTitle || 'Not specified',
+        selectedTime: '',  
+        additionalInfo: `Education: ${formData.education}, Previous Coding Experience: ${formData.previousCoding}`
       });
 
       if (result.success) {
@@ -82,6 +88,15 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <h3>Available Courses:</h3>
+        <ul>
+          {courses.map((course, index) => (
+            <li key={index}>{course}</li>
+          ))}
+        </ul>
+      </div>
+
       <div>
         <label htmlFor="fullName" className="block text-sm font-medium text-gray-300">
           Full Name
@@ -207,6 +222,20 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
           <option value="no">No</option>
           <option value="yes">Yes</option>
         </select>
+      </div>
+
+      <div className="mt-4 p-4 bg-gray-700 rounded-md">
+        <h3 className="text-lg font-medium text-gray-200 mb-2">Course Price</h3>
+        <div className="flex justify-between items-center">
+          <div>
+            <span className="text-gray-300">UGX: </span>
+            <span className="text-white font-semibold">{price.ugx.toLocaleString()}</span>
+          </div>
+          <div>
+            <span className="text-gray-300">USD: </span>
+            <span className="text-white font-semibold">${price.usd}</span>
+          </div>
+        </div>
       </div>
 
       {error && (

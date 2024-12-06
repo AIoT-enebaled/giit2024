@@ -170,5 +170,36 @@ export const courseCatalogs: CourseCatalog[] = [
       'Tuesday & Thursday: 5:00 PM - 8:00 PM',
       'Saturday: 1:00 PM - 7:00 PM'
     ]
+  },
+  {
+    id: 'computer-training',
+    title: 'Computer Training',
+    description: 'Comprehensive computer training course covering essential computer skills and digital literacy.',
+    price: { ugx: 350000, usd: 95 },
+    duration: '1 month',
+    ageGroup: 'Ages 6+',
+    image: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
+    objectives: [
+      { title: 'Computer Basics', description: 'Learn fundamental computer operations and terminology' },
+      { title: 'Digital Literacy', description: 'Develop essential digital skills for modern computing' },
+      { title: 'Software Applications', description: 'Master common software applications and tools' },
+      { title: 'Internet Skills', description: 'Learn safe internet usage and basic web navigation' }
+    ],
+    prerequisites: ['No prior experience required'],
+    curriculum: [
+      'Introduction to computers and operating systems',
+      'Basic hardware components and their functions',
+      'File management and organization',
+      'Microsoft Office basics (Word, Excel, PowerPoint)',
+      'Internet browsing and online safety',
+      'Email communication',
+      'Basic troubleshooting',
+      'Final assessment project'
+    ],
+    classPeriods: [
+      'Monday to Friday: 9:00 AM - 11:00 AM',
+      'Monday to Friday: 2:00 PM - 4:00 PM',
+      'Saturday: 10:00 AM - 2:00 PM'
+    ]
   }
 ];
