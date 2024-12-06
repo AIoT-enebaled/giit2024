@@ -1,0 +1,114 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { AuthState, SignUpData, SignInData, User } from '../types/auth';
+import { useNavigate } from 'react-router-dom';
+
+interface AuthContextType extends AuthState {
+  signUp: (data: SignUpData) => Promise<void>;
+  signIn: (data: SignInData) => Promise<void>;
+  signOut: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    loading: true,
+    error: null,
+  });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check for existing session
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setState(prev => ({
+        ...prev,
+        user: JSON.parse(storedUser),
+        loading: false,
+      }));
+    } else {
+      setState(prev => ({ ...prev, loading: false }));
+    }
+  }, []);
+
+  const signUp = async (data: SignUpData) => {
+    try {
+      setState(prev => ({ ...prev, loading: true, error: null }));
+      
+      // Here you would typically make an API call to your backend
+      // For now, we'll simulate a successful signup
+      const newUser: User = {
+        id: Math.random().toString(36).substr(2, 9),
+        email: data.email,
+        fullName: data.fullName,
+        phoneNumber: data.phoneNumber,
+        createdAt: new Date(),
+      };
+
+      localStorage.setItem('user', JSON.stringify(newUser));
+      setState(prev => ({ ...prev, user: newUser, loading: false }));
+      navigate('/dashboard');
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'An error occurred during sign up',
+        loading: false,
+      }));
+    }
+  };
+
+  const signIn = async (data: SignInData) => {
+    try {
+      setState(prev => ({ ...prev, loading: true, error: null }));
+      
+      // Here you would typically make an API call to your backend
+      // For now, we'll simulate a successful login
+      const user: User = {
+        id: Math.random().toString(36).substr(2, 9),
+        email: data.email,
+        fullName: 'Test User',
+        createdAt: new Date(),
+      };
+
+      localStorage.setItem('user', JSON.stringify(user));
+      setState(prev => ({ ...prev, user, loading: false }));
+      navigate('/dashboard');
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'An error occurred during sign in',
+        loading: false,
+      }));
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      setState(prev => ({ ...prev, loading: true, error: null }));
+      localStorage.removeItem('user');
+      setState(prev => ({ ...prev, user: null, loading: false }));
+      navigate('/');
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'An error occurred during sign out',
+        loading: false,
+      }));
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ ...state, signUp, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
