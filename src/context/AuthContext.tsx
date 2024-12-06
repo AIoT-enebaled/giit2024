@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthState, SignUpData, SignInData, User } from '../types/auth';
-import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType extends AuthState {
   signUp: (data: SignUpData) => Promise<void>;
@@ -16,7 +15,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading: true,
     error: null,
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Check for existing session
@@ -48,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       localStorage.setItem('user', JSON.stringify(newUser));
       setState(prev => ({ ...prev, user: newUser, loading: false }));
-      navigate('/dashboard');
+      window.location.hash = '#/dashboard';
     } catch (error) {
       setState(prev => ({
         ...prev,
@@ -73,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       localStorage.setItem('user', JSON.stringify(user));
       setState(prev => ({ ...prev, user, loading: false }));
-      navigate('/dashboard');
+      window.location.hash = '#/dashboard';
     } catch (error) {
       setState(prev => ({
         ...prev,
@@ -88,7 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setState(prev => ({ ...prev, loading: true, error: null }));
       localStorage.removeItem('user');
       setState(prev => ({ ...prev, user: null, loading: false }));
-      navigate('/');
+      window.location.hash = '#/';
     } catch (error) {
       setState(prev => ({
         ...prev,
