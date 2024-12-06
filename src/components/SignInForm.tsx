@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const SignInForm: React.FC = () => {
   const { signIn, error, loading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/services';
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -12,6 +16,7 @@ const SignInForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await signIn(formData);
+    navigate(from, { replace: true });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

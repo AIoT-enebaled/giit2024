@@ -11,13 +11,18 @@ const Navbar = () => {
   const location = useLocation();
   const { user, signOut } = useAuth();
 
-  const navLinks = [
+  const publicLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
+  ];
+
+  const protectedLinks = [
     { name: 'Services', path: '/services' },
+    { name: 'About', path: '/about' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
+
+  const navLinks = user ? [...publicLinks, ...protectedLinks] : publicLinks;
 
   useEffect(() => {
     const handleScroll = () => {
