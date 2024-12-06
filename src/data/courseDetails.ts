@@ -7,6 +7,7 @@ interface CourseCatalog {
   id: string;
   title: string;
   description: string;
+  category: string;
   price: {
     ugx: number;
     usd: number;
@@ -20,10 +21,51 @@ interface CourseCatalog {
   classPeriods: string[];
 }
 
+export const courseCategories = {
+  FUNDAMENTALS: 'Computer Fundamentals',
+  PROGRAMMING_KIDS: 'Programming for Kids',
+  WEB_DEVELOPMENT: 'Web Development',
+  PROGRAMMING: 'Programming Languages',
+  AI_ML: 'AI & Machine Learning'
+} as const;
+
 export const courseCatalogs: CourseCatalog[] = [
+  {
+    id: 'computer-training',
+    title: 'Computer Training',
+    category: courseCategories.FUNDAMENTALS,
+    description: 'Comprehensive computer training course covering essential computer skills and digital literacy.',
+    price: { ugx: 350000, usd: 95 },
+    duration: '1 month',
+    ageGroup: 'Ages 6+',
+    image: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
+    objectives: [
+      { title: 'Computer Basics', description: 'Learn fundamental computer operations and terminology' },
+      { title: 'Digital Literacy', description: 'Develop essential digital skills for modern computing' },
+      { title: 'Software Applications', description: 'Master common software applications and tools' },
+      { title: 'Internet Skills', description: 'Learn safe internet usage and basic web navigation' }
+    ],
+    prerequisites: ['No prior experience required'],
+    curriculum: [
+      'Introduction to computers and operating systems',
+      'Basic hardware components and their functions',
+      'File management and organization',
+      'Microsoft Office basics (Word, Excel, PowerPoint)',
+      'Internet browsing and online safety',
+      'Email communication',
+      'Basic troubleshooting',
+      'Final assessment project'
+    ],
+    classPeriods: [
+      'Monday to Friday: 9:00 AM - 11:00 AM',
+      'Monday to Friday: 2:00 PM - 4:00 PM',
+      'Saturday: 10:00 AM - 2:00 PM'
+    ]
+  },
   {
     id: 'scratch-kids',
     title: 'Scratch for Kids',
+    category: courseCategories.PROGRAMMING_KIDS,
     description: 'Introduction to programming concepts through fun and interactive projects.',
     price: { ugx: 420000, usd: 114 },
     duration: '2 months',
@@ -54,6 +96,7 @@ export const courseCatalogs: CourseCatalog[] = [
   {
     id: 'web-design',
     title: 'Responsive Web Design',
+    category: courseCategories.WEB_DEVELOPMENT,
     description: 'Learn to create modern, responsive websites using HTML, CSS, and JavaScript.',
     price: { ugx: 650000, usd: 175 },
     duration: '2 months',
@@ -84,6 +127,7 @@ export const courseCatalogs: CourseCatalog[] = [
   {
     id: 'python-course',
     title: 'Python Full Course',
+    category: courseCategories.PROGRAMMING,
     description: 'Comprehensive Python programming from basics to advanced concepts.',
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
@@ -114,6 +158,7 @@ export const courseCatalogs: CourseCatalog[] = [
   {
     id: 'javascript-course',
     title: 'JavaScript Full Course',
+    category: courseCategories.PROGRAMMING,
     description: 'Master JavaScript and modern web development frameworks.',
     price: { ugx: 3500000, usd: 948 },
     duration: '6 months',
@@ -144,6 +189,7 @@ export const courseCatalogs: CourseCatalog[] = [
   {
     id: 'ai-course',
     title: 'AI & Machine Learning',
+    category: courseCategories.AI_ML,
     description: 'Introduction to Artificial Intelligence and Machine Learning concepts.',
     price: { ugx: 1500000, usd: 406 },
     duration: '3 months',
@@ -169,37 +215,6 @@ export const courseCatalogs: CourseCatalog[] = [
       'Monday & Wednesday: 4:00 PM - 7:00 PM',
       'Tuesday & Thursday: 5:00 PM - 8:00 PM',
       'Saturday: 1:00 PM - 7:00 PM'
-    ]
-  },
-  {
-    id: 'computer-training',
-    title: 'Computer Training',
-    description: 'Comprehensive computer training course covering essential computer skills and digital literacy.',
-    price: { ugx: 350000, usd: 95 },
-    duration: '1 month',
-    ageGroup: 'Ages 6+',
-    image: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
-    objectives: [
-      { title: 'Computer Basics', description: 'Learn fundamental computer operations and terminology' },
-      { title: 'Digital Literacy', description: 'Develop essential digital skills for modern computing' },
-      { title: 'Software Applications', description: 'Master common software applications and tools' },
-      { title: 'Internet Skills', description: 'Learn safe internet usage and basic web navigation' }
-    ],
-    prerequisites: ['No prior experience required'],
-    curriculum: [
-      'Introduction to computers and operating systems',
-      'Basic hardware components and their functions',
-      'File management and organization',
-      'Microsoft Office basics (Word, Excel, PowerPoint)',
-      'Internet browsing and online safety',
-      'Email communication',
-      'Basic troubleshooting',
-      'Final assessment project'
-    ],
-    classPeriods: [
-      'Monday to Friday: 9:00 AM - 11:00 AM',
-      'Monday to Friday: 2:00 PM - 4:00 PM',
-      'Saturday: 10:00 AM - 2:00 PM'
     ]
   }
 ];
