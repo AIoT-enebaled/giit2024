@@ -27,7 +27,8 @@ export const courseCategories = {
   WEB_DEVELOPMENT: 'Web Development',
   PROGRAMMING: 'Programming Languages',
   AI_ML: 'AI & Machine Learning',
-  THINKING_SKILLS: 'Thinking & Innovation'
+  THINKING_SKILLS: 'Thinking & Innovation',
+  CONSULTATION: 'Business Consultation'
 } as const;
 
 export const courseCatalogs: CourseCatalog[] = [
@@ -309,6 +310,66 @@ export const courseCatalogs: CourseCatalog[] = [
       'Monday & Wednesday: 9:00 AM - 11:00 AM',
       'Tuesday & Thursday: 2:00 PM - 4:00 PM',
       'Saturday: 10:00 AM - 2:00 PM'
+    ]
+  },
+  {
+    id: 'ai-consultation',
+    title: 'AI Consultation',
+    category: courseCategories.CONSULTATION,
+    description: 'Expert consultation on artificial intelligence implementation and strategy.',
+    price: { ugx: 150000, usd: 41 },
+    duration: '1 hour',
+    ageGroup: 'Business Owners',
+    image: 'https://images.pexels.com/photos/8353802/pexels-photo-8353802.jpeg',
+    objectives: [
+      { title: 'AI Assessment', description: 'Evaluate AI opportunities in your business' },
+      { title: 'Strategy Development', description: 'Create an AI implementation strategy' },
+      { title: 'Technology Selection', description: 'Choose the right AI technologies' },
+      { title: 'Implementation Planning', description: 'Plan for successful AI integration' }
+    ],
+    prerequisites: ['Must be a business owner or decision maker'],
+    curriculum: [
+      'Business needs assessment',
+      'AI opportunity identification',
+      'Technology stack evaluation',
+      'Implementation strategy',
+      'Resource planning',
+      'Risk assessment',
+      'Action plan development'
+    ],
+    classPeriods: [
+      'Monday to Friday: 9:00 AM - 5:00 PM (By appointment)',
+      'Saturday: 10:00 AM - 2:00 PM (By appointment)'
+    ]
+  },
+  {
+    id: 'ai-business',
+    title: 'AI in Business Consultation',
+    category: courseCategories.CONSULTATION,
+    description: 'Strategic consultation on leveraging AI for business growth and optimization.',
+    price: { ugx: 150000, usd: 41 },
+    duration: '1 hour',
+    ageGroup: 'Business Owners',
+    image: 'https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg',
+    objectives: [
+      { title: 'Business Analysis', description: 'Analyze business processes for AI integration' },
+      { title: 'ROI Assessment', description: 'Evaluate potential return on AI investment' },
+      { title: 'Process Optimization', description: 'Identify processes for AI automation' },
+      { title: 'Growth Strategy', description: 'Develop AI-driven growth strategies' }
+    ],
+    prerequisites: ['Must be a business owner or decision maker'],
+    curriculum: [
+      'Business process analysis',
+      'AI application assessment',
+      'Cost-benefit analysis',
+      'Implementation roadmap',
+      'Change management strategy',
+      'ROI projection',
+      'Action plan development'
+    ],
+    classPeriods: [
+      'Monday to Friday: 9:00 AM - 5:00 PM (By appointment)',
+      'Saturday: 10:00 AM - 2:00 PM (By appointment)'
     ]
   }
 ];
