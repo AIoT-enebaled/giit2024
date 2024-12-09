@@ -62,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setState(prev => ({ ...prev, loading: true, error: null }));
       
       const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      console.log('Stored User:', storedUser);
       if (storedUser && storedUser.password === data.password) {
         setState(prev => ({ ...prev, user: storedUser, loading: false }));
         window.location.hash = '#/';
