@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       localStorage.setItem('user', JSON.stringify(newUser));
       setState(prev => ({ ...prev, user: newUser, loading: false }));
-      window.location.hash = '#/';
+      window.location.hash = '#/signin';
     } catch (error) {
       setState(prev => ({
         ...prev,
