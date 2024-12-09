@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
-import { submitRegistration } from '../utils/firebaseService';
 
 interface StudentRegistrationFormProps {
   courseTitle: string;
@@ -10,11 +9,6 @@ interface StudentRegistrationFormProps {
   };
   courses: string[];
   onClose: () => void;
-}
-
-interface RegistrationResult {
-  success: boolean;
-  error?: string;
 }
 
 const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ courseTitle, price, courses, onClose }) => {
@@ -39,51 +33,6 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-    setSuccess(false);
-
-    try {
-      console.log('Submitting student registration:', formData.fullName);
-      
-      const result: RegistrationResult = await submitRegistration({
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        address: '',  
-        preferredContact: 'email',  
-        classType: formData.classType || 'Regular',
-        childName: formData.fullName,  
-        childAge: formData.age,
-        selectedCourse: courseTitle || 'Not specified',
-        selectedTime: '',  
-        additionalInfo: `Education: ${formData.education}, Previous Coding Experience: ${formData.previousCoding}`
-      });
-
-      if (result.success) {
-        setSuccess(true);
-        setFormData({
-          fullName: '',
-          age: '',
-          email: '',
-          phone: '',
-          classType: 'private',
-          classMode: 'remote',
-          education: '',
-          previousCoding: 'no'
-        });
-        setTimeout(() => {
-          onClose();
-        }, 2000);
-      } else {
-        setError(result.error || 'Failed to submit registration');
-      }
-    } catch (err) {
-      console.error('Registration error:', err);
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
