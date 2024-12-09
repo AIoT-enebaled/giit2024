@@ -41,6 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: data.email,
         fullName: data.fullName,
         phoneNumber: data.phoneNumber,
+        password: data.password,
         createdAt: new Date(),
       };
 
@@ -60,18 +61,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
       
-      // Here you would typically make an API call to your backend
-      // For now, we'll simulate a successful login
-      const user: User = {
-        id: Math.random().toString(36).substr(2, 9),
-        email: data.email,
-        fullName: 'Test User',
-        createdAt: new Date(),
-      };
-
-      localStorage.setItem('user', JSON.stringify(user));
-      setState(prev => ({ ...prev, user, loading: false }));
-      window.location.hash = '#/';
+      const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      if (storedUser && storedUser.password === data.password) {
+        setState(prev => ({ ...prev, user: storedUser, loading: false }));
+        window.location.hash = '#/';
+      } else {
+        setState(prev => ({
+          ...prev,
+          error: 'Invalid email or password',
+          loading: false,
+        }));
+      }
     } catch (error) {
       setState(prev => ({
         ...prev,
