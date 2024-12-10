@@ -2,27 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, GraduationCap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
-  const { user, signOut } = useAuth();
 
-  const publicLinks = [
+  const navLinks = [
     { name: 'Home', path: '/' },
-  ];
-
-  const protectedLinks = [
     { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
-
-  const navLinks = user ? [...publicLinks, ...protectedLinks] : publicLinks;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,136 +41,62 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex md:items-center md:space-x-6">
             {navLinks.map((link) => (
               <Link
-                key={link.path}
+                key={link.name}
                 to={link.path}
-                className="relative group"
+                className={`text-sm font-medium transition-colors duration-300 ${
+                  isActive(link.path)
+                    ? 'text-indigo-400'
+                    : 'text-gray-300 hover:text-indigo-400'
+                }`}
               >
-                <span className={`text-gray-300 group-hover:text-white transition-colors duration-200 ${
-                  location.pathname === link.path ? 'text-white' : ''
-                }`}>
-                  {link.name}
-                </span>
-                <motion.div
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 origin-left"
-                  initial={{ scaleX: 0 }}
-                  animate={{ 
-                    scaleX: location.pathname === link.path ? 1 : 0 
-                  }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.2 }}
-                />
+                {link.name}
               </Link>
             ))}
           </div>
 
-          {/* Mobile Navigation Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile menu button */}
+          <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-400 hover:text-indigo-300 transition-colors duration-300"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
             >
-              <motion.div
-                initial={false}
-                animate={{ rotate: isOpen ? 90 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </motion.div>
+              {isOpen ? (
+                <X className="block h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Menu className="block h-6 w-6" aria-hidden="true" />
+              )}
             </button>
-          </div>
-
-          {/* Authentication UI Elements */}
-          <div className="flex items-center gap-4">
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 text-gray-300 hover:text-white focus:outline-none"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white">
-                    {user.fullName.charAt(0)}
-                  </div>
-                  <span>{user.fullName}</span>
-                </button>
-                {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5">
-                    <div className="py-1">
-                      <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                      >
-                        Dashboard
-                      </Link>
-                      <button
-                        onClick={signOut}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                      >
-                        Sign out
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex items-center gap-4">
-                <Link
-                  to="/signin"
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  to="/signup"
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-indigo-500 hover:to-purple-500"
-                >
-                  Sign up
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden"
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-dark-light/95 backdrop-blur-md"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#020817]">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navLinks.map((link) => (
-                <motion.div
-                  key={link.path}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.2 }}
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive(link.path)
+                      ? 'text-indigo-400 bg-gray-900'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-indigo-400'
+                  }`}
+                  onClick={() => setIsOpen(false)}
                 >
-                  <Link
-                    to={link.path}
-                    className={`block px-3 py-2 rounded-md text-base font-medium relative group ${
-                      location.pathname === link.path
-                        ? 'text-white bg-gray-900'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-700'
-                    }`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500"
-                      initial={{ width: '0%' }}
-                      animate={{ width: location.pathname === link.path ? '100%' : '0%' }}
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.2 }}
-                    />
-                  </Link>
-                </motion.div>
+                  {link.name}
+                </Link>
               ))}
             </div>
           </motion.div>

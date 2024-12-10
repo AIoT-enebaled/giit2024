@@ -33,6 +33,18 @@ const StudentRegistrationForm: React.FC<StudentRegistrationFormProps> = ({ cours
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true); // Set submitting state to true
+
+    try {
+        // Your form submission logic here (e.g., API call)
+        
+        // If successful
+        setSuccess(true);
+    } catch (error) {
+        setError("An error occurred during submission.");
+    } finally {
+        setIsSubmitting(false); // Reset submitting state
+    }
   };
 
   return (
