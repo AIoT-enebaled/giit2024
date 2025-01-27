@@ -20,7 +20,7 @@ const Quiz = () => {
     const handleSubmit = () => {
         let newScore = 0;
         questions.forEach((q, index) => {
-            const selectedOption = document.querySelector(`input[name='q${index + 1}']:checked`);
+            const selectedOption = document.querySelector(`input[name='q${index + 1}']:checked`) as HTMLInputElement;
             if (selectedOption && selectedOption.value === q.answer) {
                 newScore++;
             }
@@ -36,7 +36,10 @@ const Quiz = () => {
                 <div className="question" key={index}>
                     <p>{index + 1}. {q.question}</p>
                     {q.options.map((option, i) => (
-                        <label key={i}><input type="radio" name={`q${index + 1}`} value={option} /> {option}</label><br />
+                        <div key={i}>
+                            <label><input type="radio" name={`q${index + 1}`} value={option} /> {option}</label>
+                            <br />
+                        </div>
                     ))}
                 </div>
             ))}
